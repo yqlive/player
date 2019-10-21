@@ -1,0 +1,25 @@
+package com.yq.live.service
+
+import com.yq.live.entity.Live
+import com.yq.http.api
+import com.yq.invitationcat.model.Tribute
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+interface ApiService {
+    /**
+     * 获取关注数据
+     * @param type:  0-用户 1-节目 2-播单
+     * @param count: 指定要返回的列表的数据 默认为10
+     */
+    @GET("races")
+    fun lives(): Call<Tribute<List<Live>>>
+
+    @GET("race")
+    fun live(@Query("code") code: String): Call<Tribute<Live>>
+}
+
+val apiService by lazy { ApiService::class.api }
+val <T> Call<T>.body
+    get() = execute().body()
