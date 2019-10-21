@@ -53,3 +53,10 @@ fun <T> RecyclerView.adapter(ankoUi: AnkoComponent<ViewGroup>): RecyclerViewAdap
     createAdapter<T>(ankoUi).apply { adapter = this }
 
 
+inline fun ViewManager.flexboxLayout(
+    ctx: Context = AnkoInternals.getContext(this),
+    theme: Int = 0,
+    init: _FlexboxLayout.() -> Unit
+): _FlexboxLayout {
+    return ankoView({ _FlexboxLayout(ctx) }, theme, init)
+}

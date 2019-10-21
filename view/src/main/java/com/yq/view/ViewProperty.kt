@@ -18,7 +18,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.facebook.drawee.generic.RoundingParams
 import com.facebook.drawee.view.SimpleDraweeView
-import com.google.android.flexbox.FlexboxLayout
 import org.jetbrains.anko.internals.AnkoInternals.noGetter
 
 /**-----------------------------------Property---------------------------------------*/
@@ -169,32 +168,6 @@ var RecyclerView.decoration: Int
                 }
             }
         })
-    }
-
-
-/**
- * 该属性会覆盖原生的maxLine
- * 该属性仅在View绘制完成后才会生效
- * 当使用FlexboxLayoutManger作为用于RecyclerView的layoutManager时,该属性失效
- */
-var FlexboxLayout.cutline: Int
-    get() = getTag(R.id.flexboxCutline) as? Int ?: -1
-    set(value) {
-        maxLine = -1
-        setTag(R.id.flexboxCutline, value)
-        if (value < 0) {
-            for (cv in 0 until childCount) {
-                getChildAt(cv)?.show = true
-            }
-        } else {
-            val clines = flexLines.size
-            if (value < clines) {
-                flexLines.filterIndexed { index, _ -> index >= value }.forEach {
-                    for (ci in 0 until it.itemCount)
-                        getChildAt(ci + it.firstIndex)?.show = false
-                }
-            }
-        }
     }
 
 

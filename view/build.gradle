@@ -45,5 +45,7 @@ dependencies {
     //fresco
     api 'com.facebook.fresco:fresco:1.13.0'
     api 'com.facebook.fresco:animated-gif:1.13.0'
+    //flexbox
+    api 'com.google.android:flexbox:1.0.0'
 
 }

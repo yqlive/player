@@ -9,9 +9,9 @@ import android.support.constraint.Guideline
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
-import com.yq.live.App
 import com.yq.live.R
 import com.yq.live.player.DataInter
+import com.yq.live.player.LivePlayer
 import com.yq.player.config.PConst
 import com.yq.player.entity.DataSource
 import com.yq.player.event.BundlePool
@@ -59,7 +59,7 @@ class ErrorCover(context: Context) : BaseCover(context) {
                 requestRetry(bundle)
             }
             STATUS_MOBILE -> {
-                App.ignoreMobile = true
+                LivePlayer.ignoreMobile = true
                 setErrorState(false)
                 requestResume(bundle)
             }
@@ -97,7 +97,7 @@ class ErrorCover(context: Context) : BaseCover(context) {
                     setErrorState(false)
                 }
             } else {
-                if (App.ignoreMobile)
+                if (LivePlayer.ignoreMobile)
                     return
                 mStatus = STATUS_MOBILE
                 setErrorInfo("当前正在使用流量播放，是否继续")

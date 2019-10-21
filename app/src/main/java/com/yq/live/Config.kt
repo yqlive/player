@@ -1,5 +1,6 @@
 package com.yq.live
 
+import android.app.Application
 import com.facebook.cache.disk.DiskCacheConfig
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
@@ -86,7 +87,7 @@ fun httpInit() {
  * fresco 图片管理库初始化
  * 配置默认最大尺寸和最大缓存尺寸等
  */
-fun App.frescoInit() {
+fun Application.frescoInit() {
     val builder = ImagePipelineConfig.newBuilder(this).setDownsampleEnabled(true)
     val cache = cache("header")?.absolutePath
     if (cache.isNullOrEmpty()) {
