@@ -14,8 +14,8 @@ import com.yq.player.event.OnPlayerEventListener
 import com.yq.player.receiver.BaseCover
 import com.yq.player.receiver.IReceiverGroup
 import com.yq.player.touch.OnTouchGestureListener
-import com.yq.view.*
-import com.yq.view.enko.drawable
+import com.yq.live.view.*
+import com.yq.live.view.enko.drawable
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.constraint.layout.matchConstraint
 import org.jetbrains.anko.dip

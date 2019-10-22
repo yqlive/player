@@ -1,7 +1,7 @@
 package com.yq.live.service
 
 import com.yq.live.entity.Live
-import com.yq.http.api
+import com.yq.live.http.api
 import com.yq.invitationcat.model.Tribute
 import retrofit2.Call
 import retrofit2.http.GET

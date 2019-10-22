@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import com.yq.live.Settings
-import com.yq.rely.d
-import com.yq.rely.i
+import com.yq.live.rely.d
+import com.yq.live.rely.i
 
 class NetReceiver(private var needRestart: (Boolean) -> Unit) : BroadcastReceiver() {
 

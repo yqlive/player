@@ -3,8 +3,8 @@
 package com.yq.live
 
 import android.app.Application
-import com.yq.rely.data
-import com.yq.rely.dataRemove
+import com.yq.live.rely.data
+import com.yq.live.rely.dataRemove
 import java.io.Serializable
 
 /**

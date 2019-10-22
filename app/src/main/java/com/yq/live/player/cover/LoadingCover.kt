@@ -9,9 +9,9 @@ import com.yq.player.event.OnPlayerEventListener
 import com.yq.player.player.IPlayer
 import com.yq.player.receiver.BaseCover
 import com.yq.player.receiver.PlayerStateGetter
-import com.yq.view.centerOf
-import com.yq.view.parentId
-import com.yq.view.view
+import com.yq.live.view.centerOf
+import com.yq.live.view.parentId
+import com.yq.live.view.view
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.constraint.layout.matchConstraint
 import org.jetbrains.anko.custom.customView

@@ -20,10 +20,10 @@ import com.yq.player.event.OnErrorEventListener
 import com.yq.player.event.OnPlayerEventListener
 import com.yq.player.receiver.BaseCover
 import com.yq.player.utils.NetworkUtils
-import com.yq.rely.asto
-import com.yq.view.*
-import com.yq.view.enko.drawableSelector
-import com.yq.view.enko.selected
+import com.yq.live.rely.asto
+import com.yq.live.view.*
+import com.yq.live.view.enko.drawableSelector
+import com.yq.live.view.enko.selected
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.constraint.layout.guideline
@@ -187,7 +187,7 @@ class ErrorCover(context: Context) : BaseCover(context) {
                 gravity = Gravity.CENTER
                 textColor = 0xFFFFFFFF.toInt()
                 background = drawableSelector {
-                    selected(com.yq.view.enko.drawable {
+                    selected(com.yq.live.view.enko.drawable {
                         setColorFilter(0xFFF27700.toInt(), PorterDuff.Mode.SRC_IN)
                         cornerRadius = 5f
                     }, false)

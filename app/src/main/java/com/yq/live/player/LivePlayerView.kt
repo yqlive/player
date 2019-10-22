@@ -11,7 +11,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.app.SupportActivity
 import android.view.ViewGroup
-import com.yq.ipfs.ipfs
+import com.yq.live.ipfs.ipfs
 import com.yq.live.entity.Live
 import com.yq.live.ipfs.LIVE
 import com.yq.live.isTopActivity
@@ -22,12 +22,12 @@ import com.yq.player.entity.DataSource
 import com.yq.player.player.IPlayer
 import com.yq.player.receiver.ReceiverGroup
 import com.yq.player.widget.BaseVideoView
-import com.yq.rely.chain.chain
-import com.yq.rely.chain.end
-import com.yq.rely.chain.then
-import com.yq.rely.childCoroutine
-import com.yq.rely.d
-import com.yq.rely.screenWidth
+import com.yq.live.rely.chain.chain
+import com.yq.live.rely.chain.end
+import com.yq.live.rely.chain.then
+import com.yq.live.rely.childCoroutine
+import com.yq.live.rely.d
+import com.yq.live.rely.screenWidth
 
 @SuppressLint("RestrictedApi")
 class LivePlayerView(context: Context) : BaseVideoView(context) {

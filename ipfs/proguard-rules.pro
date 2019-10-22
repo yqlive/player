@@ -19,7 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class com.yq.ipfs.** {*;}
+-keep class com.yq.live.ipfs.** {*;}
 
 # JSR 305 annotations are for embedding nullability information.
 -dontwarn javax.annotation.**

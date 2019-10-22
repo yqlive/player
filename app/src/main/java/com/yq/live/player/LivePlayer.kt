@@ -17,7 +17,7 @@ import com.yq.player.config.PlayerConfig
 import com.yq.player.config.PlayerLibrary
 import com.yq.player.entity.DecoderPlan
 import com.yq.player.record.PlayRecordManager
-import com.yq.rely.Blo
+import com.yq.live.rely.Blo
 
 object LivePlayer {
     val PLAN_ID_IJK = 1

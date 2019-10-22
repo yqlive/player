@@ -1,18 +1,17 @@
 package com.yq.live
 
 import android.app.Application
-import com.airbnb.lottie.L.debug
 import com.facebook.cache.disk.DiskCacheConfig
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.google.gson.JsonDeserializer
-import com.yq.http.Http
-import com.yq.http.addGsonConverter
-import com.yq.http.interceptor
-import com.yq.http.interceptor.FilterLoggingInterceptor
-import com.yq.ipfs.ipfsHttp
-import com.yq.rely.MB
-import com.yq.rely.cache
+import com.yq.live.http.Http
+import com.yq.live.http.addGsonConverter
+import com.yq.live.http.interceptor
+import com.yq.live.http.interceptor.FilterLoggingInterceptor
+import com.yq.live.ipfs.ipfsHttp
+import com.yq.live.rely.MB
+import com.yq.live.rely.cache
 import okhttp3.ResponseBody.Companion.toResponseBody
 import java.io.File
 import java.util.*

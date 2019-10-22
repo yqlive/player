@@ -1,1 +1,1 @@
-include ':app', ':rely', ':player', ':http', ':ipfs', ':view'
+include ':app', ':player'

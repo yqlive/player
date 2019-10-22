@@ -2,7 +2,7 @@ package com.yq.live
 
 import android.app.ActivityManager
 import android.content.Context
-import com.yq.rely.Blo
+import com.yq.live.rely.Blo
 
 val Context.isTopActivity: Boolean
     get() = this.isTopActivity(this.javaClass.name)
