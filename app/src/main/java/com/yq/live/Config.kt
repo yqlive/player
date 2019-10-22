@@ -1,6 +1,7 @@
 package com.yq.live
 
 import android.app.Application
+import com.airbnb.lottie.L.debug
 import com.facebook.cache.disk.DiskCacheConfig
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
@@ -25,8 +26,8 @@ private const val MAX_DISK_CACHE_SIZE = 100 * MB
 
 private const val IMAGE_PIPELINE_CACHE_DIR = "ImagePipeLine"
 
-//val apiHost = "https://wsrv.tvc6.cn/"
-val apiHost = "http://111.6.79.35:7001/"
+val apiHost = "https://wsrv.tvc6.cn/"
+//val apiHost = "http://111.6.79.35:7001/"
 
 fun ipfsInit() {
     ipfsHttp {
@@ -67,7 +68,9 @@ fun httpInit() {
                     if (response.code == 413) {//目前仅处理了413错误
                         val mediaType = response.body?.contentType()
                         val responseBody =
-                            "{\"success\":false, \"message\"=\"文件太大\",\"code\":413}".toResponseBody(mediaType)
+                            "{\"success\":false, \"message\"=\"文件太大\",\"code\":413}".toResponseBody(
+                                mediaType
+                            )
                         response.newBuilder().body(responseBody).build()
                     } else {
                         response
@@ -96,7 +99,8 @@ fun Application.frescoInit() {
         val diskCacheConfig = DiskCacheConfig.newBuilder(this).setBaseDirectoryPath(File(cache))
             .setBaseDirectoryName(IMAGE_PIPELINE_CACHE_DIR).setMaxCacheSize(
                 MAX_DISK_CACHE_SIZE
-            ).setMaxCacheSizeOnLowDiskSpace(MAX_DISK_CACHE_LOW_SIZE).setMaxCacheSizeOnVeryLowDiskSpace(
+            ).setMaxCacheSizeOnLowDiskSpace(MAX_DISK_CACHE_LOW_SIZE)
+            .setMaxCacheSizeOnVeryLowDiskSpace(
                 MAX_DISK_CACHE_VERYLOW_SIZE
             ).build()
         builder.setMainDiskCacheConfig(diskCacheConfig)

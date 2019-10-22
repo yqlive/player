@@ -4,7 +4,6 @@ import okhttp3.Headers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
-import okhttp3.internal.http.hasBody
 import okhttp3.internal.http.promisesBody
 import okhttp3.internal.platform.Platform
 import okhttp3.internal.platform.Platform.Companion.INFO
@@ -132,7 +131,7 @@ class FilterLoggingInterceptor @JvmOverloads constructor(
         var requestStartMessage = ("--> "
                 + request.method
                 + ' '.toString() + request.url
-                + if (connection != null) " " + connection!!.protocol() else "")
+                + (connection?.protocol() ?: ""))
         if (!logHeaders && hasRequestBody) {
             requestStartMessage += " (" + requestBody!!.contentLength() + "-byte body)"
         }
@@ -142,11 +141,11 @@ class FilterLoggingInterceptor @JvmOverloads constructor(
             if (hasRequestBody) {
                 // Request body headers are only present when installed as a network interceptor. Force
                 // them to be included (when available) so there values are known.
-                if (requestBody!!.contentType() != null) {
-                    logger.log("Content-Type: " + requestBody!!.contentType()!!)
+                requestBody?.contentType()?.let {
+                    logger.log("Content-Type: $it")
                 }
-                if (requestBody!!.contentLength().toInt() != -1) {
-                    logger.log("Content-Length: " + requestBody!!.contentLength())
+                requestBody?.contentLength()?.takeIf { it.toInt() != -1 }?.let {
+                    logger.log("Content-Length: $it")
                 }
             }
 
@@ -211,7 +210,8 @@ class FilterLoggingInterceptor @JvmOverloads constructor(
 
         val responseBody = response.body
         val contentLength = responseBody?.contentLength()
-        val bodySize = if (contentLength?.toInt() != -1) (contentLength).toString() + "-byte" else "unknown-length"
+        val bodySize =
+            if (contentLength?.toInt() != -1) (contentLength).toString() + "-byte" else "unknown-length"
         logger.log(
             ("<-- "
                     + response.code
