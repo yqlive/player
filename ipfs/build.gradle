@@ -28,6 +28,6 @@ android {
 }
 
 dependencies {
-    implementation project(':rely')
-    implementation project(':http')
+    api project(':rely')
+    api project(':http')
 }

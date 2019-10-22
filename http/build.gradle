@@ -28,7 +28,7 @@ android {
 }
 
 dependencies {
-    implementation project(':rely')
+    api project(':rely')
     //okhttp3相关
     api "com.squareup.okhttp3:okhttp:$okhttp_version"
     //用于查看http请求时的log
