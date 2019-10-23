@@ -1,8 +1,8 @@
 package com.yq.player.player;
 
 
-import com.yq.player.assist.InterEvent;
-import com.yq.player.assist.InterKey;
+import com.yq.player.base.assist.InterEvent;
+import com.yq.player.base.assist.InterKey;
 
 public interface DataInter {
 

@@ -208,7 +208,11 @@ class Daemon(private val _context: Context) {
         }
 
 
-        fun start(frontMode: String? = null, behindMode: String? = null, exit: ((String) -> Unit)? = null): Process? {
+        fun start(
+            frontMode: String? = null,
+            behindMode: String? = null,
+            exit: ((String) -> Unit)? = null
+        ): Process? {
             if (!initialized)
                 init()
             if (daemonProcess != null) {
@@ -261,7 +265,12 @@ class Daemon(private val _context: Context) {
             if (newstVersion.isNullOrEmpty())
                 return true
             val installedVersion =
-                logStream(run("version --enc json", false).inputStream).takeIf { !it.isNullOrEmpty() }?.let {
+                logStream(
+                    run(
+                        "version --enc json",
+                        false
+                    ).inputStream
+                ).takeIf { !it.isNullOrEmpty() }?.let {
                     runCatching {
                         d("IPFS INSTALLED VERSION:$it", TAG)
                         gson.fromJson(it, Version::class.java)
@@ -274,7 +283,8 @@ class Daemon(private val _context: Context) {
         private fun run(cmd: String, output: Boolean = true): Process {
             if (!binaryFile.exists())
                 throw DaemonException("IPFS Uninstall")
-            val env = arrayOf("IPFS_PATH=${repoPath.absoluteFile}", "GOLOG_FILE=${log.absoluteFile}")
+            val env =
+                arrayOf("IPFS_PATH=${repoPath.absoluteFile}", "GOLOG_FILE=${log.absoluteFile}")
             val command = binaryFile.absolutePath + " " + cmd
             val exec = Runtime.getRuntime().exec(command, env)
             val error = logStream(exec.errorStream, cmd, "error", true)
@@ -293,7 +303,8 @@ class Daemon(private val _context: Context) {
         private fun sync(cmd: String): Process {
             if (!binaryFile.exists())
                 throw DaemonException("IPFS Uninstall")
-            val env = arrayOf("IPFS_PATH=${repoPath.absoluteFile}", "GOLOG_FILE=${log.absoluteFile}")
+            val env =
+                arrayOf("IPFS_PATH=${repoPath.absoluteFile}", "GOLOG_FILE=${log.absoluteFile}")
             val command = binaryFile.absolutePath + " " + cmd
             val exec = Runtime.getRuntime().exec(command, env)
             d("cmd: [$cmd] executing", TAG)

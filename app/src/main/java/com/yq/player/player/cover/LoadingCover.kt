@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.View
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
-import com.yq.player.event.OnPlayerEventListener
-import com.yq.player.player.IPlayer
-import com.yq.player.receiver.BaseCover
-import com.yq.player.receiver.PlayerStateGetter
+import com.yq.player.base.event.OnPlayerEventListener
+import com.yq.player.base.player.IPlayer
+import com.yq.player.base.receiver.BaseCover
+import com.yq.player.base.receiver.PlayerStateGetter
 import com.yq.player.view.centerOf
 import com.yq.player.view.parentId
 import com.yq.player.view.view

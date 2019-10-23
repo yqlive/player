@@ -6,9 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import com.yq.player.Settings
-import com.yq.player.config.PlayerConfig
-import com.yq.player.config.PlayerLibrary
-import com.yq.player.entity.DecoderPlan
+import com.yq.player.base.config.PlayerConfig
+import com.yq.player.base.config.PlayerLibrary
+import com.yq.player.base.entity.DecoderPlan
+import com.yq.player.base.record.PlayRecordManager
 import com.yq.player.frescoInit
 import com.yq.player.httpInit
 import com.yq.player.ipfs.ipfsApiPort
@@ -16,7 +17,6 @@ import com.yq.player.ipfs.ipfsLivePort
 import com.yq.player.ipfs.ipfsSwarmPort
 import com.yq.player.ipfsInit
 import com.yq.player.player.core.exo.ExoMediaPlayer
-import com.yq.player.record.PlayRecordManager
 import com.yq.player.rely.Blo
 import com.yq.player.service.IpfsService
 import com.yq.player.service.IpfsService.Companion.IPFS_STARTED

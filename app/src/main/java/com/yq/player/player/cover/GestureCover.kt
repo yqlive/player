@@ -9,11 +9,11 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.SeekBar
 import com.yq.player.R
+import com.yq.player.base.event.OnPlayerEventListener
+import com.yq.player.base.receiver.BaseCover
+import com.yq.player.base.receiver.IReceiverGroup
+import com.yq.player.base.touch.OnTouchGestureListener
 import com.yq.player.player.DataInter
-import com.yq.player.event.OnPlayerEventListener
-import com.yq.player.receiver.BaseCover
-import com.yq.player.receiver.IReceiverGroup
-import com.yq.player.touch.OnTouchGestureListener
 import com.yq.player.view.*
 import com.yq.player.view.enko.drawable
 import org.jetbrains.anko.constraint.layout.constraintLayout

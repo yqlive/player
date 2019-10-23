@@ -173,7 +173,7 @@ class FilterLoggingInterceptor @JvmOverloads constructor(
                 logger.log("--> END " + request.method + " (duplex request body omitted)")
             } else {
                 val buffer = Buffer()
-                requestBody!!.writeTo(buffer)
+                requestBody?.writeTo(buffer)
 
                 var charset: Charset? = UTF8
                 val contentType = requestBody!!.contentType()

@@ -157,18 +157,18 @@ fun Context.id2Uri(resourceId: Int): Uri {
     return Uri.parse("android.resource://$packageName/$resourceId")
 }
 
-val Context.networkType: NetworkType
-    get() {
-        val activeNetwork = (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
-            ?: return NetworkType.NONE
-        return if (activeNetwork.isConnected) {
-            if (activeNetwork.type == ConnectivityManager.TYPE_WIFI)
-                NetworkType.WIFI
-            else
-                NetworkType.MOBILE
-        } else NetworkType.NONE
-    }
+//val Context.networkType: NetworkType
+//    get() {
+//        val activeNetwork = (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
+//            ?: return NetworkType.NONE
+//        return if (activeNetwork.isConnected) {
+//            if (activeNetwork.type == ConnectivityManager.TYPE_WIFI)
+//                NetworkType.WIFI
+//            else
+//                NetworkType.MOBILE
+//        } else NetworkType.NONE
+//    }
 
-enum class NetworkType {
-    MOBILE, WIFI, NONE
-}
+//enum class NetworkType {
+//    MOBILE, WIFI, NONE
+//}

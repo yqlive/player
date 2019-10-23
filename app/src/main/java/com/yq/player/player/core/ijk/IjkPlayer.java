@@ -10,17 +10,19 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
-import com.yq.player.config.AppContextAttach;
-import com.yq.player.config.PlayerConfig;
-import com.yq.player.config.PlayerLibrary;
-import com.yq.player.entity.DataSource;
-import com.yq.player.entity.DecoderPlan;
-import com.yq.player.event.BundlePool;
-import com.yq.player.event.EventKey;
-import com.yq.player.event.OnErrorEventListener;
-import com.yq.player.event.OnPlayerEventListener;
-import com.yq.player.log.PLog;
-import com.yq.player.player.BaseInternalPlayer;
+
+import com.yq.player.base.config.AppContextAttach;
+import com.yq.player.base.config.PlayerConfig;
+import com.yq.player.base.config.PlayerLibrary;
+import com.yq.player.base.entity.DataSource;
+import com.yq.player.base.entity.DecoderPlan;
+import com.yq.player.base.event.BundlePool;
+import com.yq.player.base.event.EventKey;
+import com.yq.player.base.event.OnErrorEventListener;
+import com.yq.player.base.event.OnPlayerEventListener;
+import com.yq.player.base.log.PLog;
+import com.yq.player.base.player.BaseInternalPlayer;
+
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
