@@ -29,7 +29,8 @@ class IpfsManager(private val _context: Context, val events: ((IpfsEvents) -> Un
 //            .publicKey(publicKey)
 //            .apiPort(5019)
             .gatewayPort(ipfsLivePort)
-            .swarmPort(4019)
+            .apiPort(ipfsApiPort)
+            .swarmPort(ipfsSwarmPort)
 //            .newestVersion(IPFS_VERSION)
             .started {
                 _isStarting = false
@@ -91,7 +92,8 @@ val ipfsStarting
     get() = ipfsService?.starting ?: false
 
 var ipfsLivePort = 8080
-
+var ipfsSwarmPort = 4001
+var ipfsApiPort = 5001
 val LIVE
     get() = "http://127.0.0.1:$ipfsLivePort/live/"
 
