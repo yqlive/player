@@ -10,6 +10,7 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.app.SupportActivity
+import android.util.AttributeSet
 import android.view.ViewGroup
 import com.yq.player.base.assist.InterEvent
 import com.yq.player.base.assist.OnVideoViewEventHandler
@@ -30,7 +31,7 @@ import com.yq.player.rely.d
 import com.yq.player.rely.screenWidth
 
 @SuppressLint("RestrictedApi")
-class LivePlayerView(context: Context) : BaseVideoView(context) {
+class LivePlayerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : BaseVideoView(context, attrs, defStyleAttr) {
 
     private val mReceiverGroup: ReceiverGroup by lazy {
         ReceiverGroup(null).apply {

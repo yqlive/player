@@ -56,26 +56,57 @@ public class App extends Application {
 }
 ```
 
-使用LivePlayerView对象，目前仅支持代码创建，暂不支持XML布局。
+使用LivePlayerView对象。
+
+```xml
+    <!--传统android的xml的布局方式 -->
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+        
+        <com.yq.player.player.LivePlayerView
+                android:id="@+id/player"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:background="@drawable/blur_bg"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+        </com.yq.player.player.LivePlayerView>
+    
+    </android.support.constraint.ConstraintLayout>
+```
+
+```java
+    //java语法下动态创建LivePlayerView
+    LivePlayerView player= new LivePlayerView(context)
+    player.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT))
+    addView(player)
+```
 
 ```kotlin
-     //如果项目kotlin语法下则支持anko布局方式创建，若不熟悉，则可用常规的java代码创建LivePlayerView
-     //kotilin语法下使用anko创建LivePlayerView
+     //如果项目kotlin语法下则支持anko布局方式创建
+     //方式1：kotilin语法下使用anko创建LivePlayerView
       customView<LivePlayerView> {
             backgroundColor = 0xFF000000.toInt()
         }.lparams(matchConstraint, matchConstraint) {
             topOf = parentId
             dimensionRatio = "16:9"
         }
+     //方式2：kotlin语法下代码动态创建LivePlayerView
+     val player = LivePlayerView(context)
+        player.layoutParams=ViewGroup.LayoutParams(matchParent,dip(200))
+        addView(player)
 ```
-```java
-    //java语法下创建LivePlayerView
-    LivePlayerView player= new LivePlayerView(context)
-```
+
 
 **获取比赛数据并播放**
 
 ```java
+  player = findViewById(R.id.player)
   //使用中注意非空校验以及子线程和主线程间切换及通讯的问题
   Tribute<Live<Live>> tribute= apiService.lives().body
   if(tribute.isSucess){
