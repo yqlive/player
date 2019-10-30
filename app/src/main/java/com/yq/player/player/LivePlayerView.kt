@@ -186,7 +186,6 @@ class LivePlayerView @JvmOverloads constructor(context: Context, attrs: Attribut
 
 
     private fun updateVideo(landscape: Boolean) {
-        onScreenChangeListener?.invoke(isLandscape)
         val lp = this.layoutParams
         if (landscape) {
             lp.width = ViewGroup.LayoutParams.MATCH_PARENT
@@ -196,6 +195,7 @@ class LivePlayerView @JvmOverloads constructor(context: Context, attrs: Attribut
             lp.height = lp.width * 9 / 16
         }
         this.layoutParams = lp
+        onScreenChangeListener?.invoke(isLandscape)
     }
 
     override fun stop() {

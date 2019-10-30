@@ -295,7 +295,8 @@ class Daemon(private val _context: Context) {
             val code = exec.waitFor()
             d("cmd: [$cmd] finished for time: " + (System.currentTimeMillis() - time), TAG)
             if (code != 0) {
-                throw DaemonException("IPFS Cmd Exception:\n$error")
+                if (error.indexOf("ipfs configuration file already exists!") < 0)
+                    throw DaemonException("IPFS Cmd Exception:\n$error")
             }
             return exec
         }
