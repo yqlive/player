@@ -134,26 +134,33 @@ class LivePlayerView @JvmOverloads constructor(
         }
         get() = _resolution
 
-    var liveCode
-        set(value) {
-            if (_liveCode != value) {
-                _liveCode = value
-                chain {
-                    apiService.live(_liveCode).execute().body()
-                }.then {
-                    it?.takeIf { it.success }?.data?.value
-                }.end {
-                    live = it
-                    it?.let {
-                        resolution = it.resolutions.takeIf { it.isNotEmpty() }?.first()?.value
-                            ?: "1080p"
-                    }
-                }.onFinally {
-                    it.destory()
-                }.call(childCoroutine)
-            }
+    @JvmOverloads
+    fun loadLive(liveCode: String, autoPlay: Boolean = false, loaded: ((Boolean) -> Unit)? = null) {
+        if (_liveCode != liveCode) {
+            _liveCode = liveCode
+            chain {
+                apiService.live(_liveCode).execute().body()
+            }.then {
+                it?.takeIf { it.success }?.data?.value
+            }.end {
+                live = it
+                it?.let {
+                    resolution = it.resolutions.takeIf { it.isNotEmpty() }?.first()?.value
+                        ?: "1080p"
+                }
+                if (autoPlay)
+                    start()
+                "success" put it != null
+            }.onFinally {
+                it.destory()
+                loaded?.invoke("success" take false)
+            }.call(childCoroutine)
+        } else {
+            if (autoPlay)
+                start()
+            loaded?.invoke(false)
         }
-        get() = _liveCode
+    }
 
     private val closeIO by lazy {
         chain {
