@@ -28,9 +28,9 @@ android {
 
 dependencies {
     implementation project(':rely')
-    implementation "com.android.support:appcompat-v7:$support_version"
     implementation project(":http")
-    
+    implementation "com.android.support:appcompat-v7:$support_version"
+
     api 'com.android.support.constraint:constraint-layout:1.1.3'
     //Anko
     // Anko Commons
