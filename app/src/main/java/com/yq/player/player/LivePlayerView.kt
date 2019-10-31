@@ -135,8 +135,7 @@ class LivePlayerView @JvmOverloads constructor(
     @JvmOverloads
     fun loadLive(
         liveCode: String,
-        autoPlay: Boolean? = false,
-        loaded: ((Boolean) -> Unit)? = null
+        loaded: (LivePlayerView.() -> Unit)? = null
     ) {
         if (_liveCode != liveCode) {
             _liveCode = liveCode
@@ -145,26 +144,25 @@ class LivePlayerView @JvmOverloads constructor(
             }.then {
                 it?.takeIf { it.success }?.data?.value
             }.end {
-                live = it
-                it?.let {
-                    resolution = it.resolutions.takeIf { it.isNotEmpty() }?.first()?.value
-                        ?: "1080p"
-                }
                 async(mainCoroutine) {
-                    if (autoPlay == true)
-                        start()
+                    live = it
+                    it?.let {
+                        resolution = it.resolutions.takeIf { it.isNotEmpty() }?.first()?.value
+                            ?: "1080p"
+                    }
+                    start()
                 }
                 "success" put it != null
+            }.onFailure { chain, throwable ->
+                e(throwable)
             }.onFinally {
                 async(mainCoroutine) {
-                    loaded?.invoke("success" take false)
+                    loaded?.invoke(this@LivePlayerView)
                 }
                 it.destory()
             }.call(childCoroutine)
         } else {
-            if (autoPlay == true)
-                start()
-            loaded?.invoke(false)
+            loaded?.invoke(this@LivePlayerView)
         }
     }
 
