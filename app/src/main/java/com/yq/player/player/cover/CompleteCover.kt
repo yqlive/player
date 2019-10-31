@@ -18,7 +18,6 @@ package com.yq.player.player.cover
 
 import android.content.Context
 import android.graphics.PorterDuff
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -134,7 +133,7 @@ class CompleteCover(context: Context) : BaseCover(context) {
                     if (icon.indexOf("http") < 0) {
                         icon = "$apiHost$icon"
                     }
-                    waiting.setImageURI(Uri.parse(icon))
+                    waiting.load(icon)
                 }
                 statusText.show = true
                 setPlayCompleteState(true)
@@ -162,16 +161,7 @@ class CompleteCover(context: Context) : BaseCover(context) {
     private var statusText by view<View>()
     public override fun onCreateCoverView(context: Context): View {
         return context.constraintLayout {
-            //            waiting = frescoImage(builder = {
-//                placeholderImage = drawable(R.drawable.ic_player_default)
-//                placeholderImageScaleType = ScalingUtils.ScaleType.CENTER_CROP
-//            }, init = {
-//            }).lparams(matchConstraint, matchConstraint) {
-//                centerOf = parentId
-//            }
-            waiting = imageView {
-
-            }.lparams(matchConstraint, matchConstraint) {
+            waiting = imageView { }.lparams(matchConstraint, matchConstraint) {
                 centerOf = parentId
             }
             statusText = textView {

@@ -82,28 +82,5 @@ fun httpInit() {
     )
 }
 
-/**
- * fresco 图片管理库初始化
- * 配置默认最大尺寸和最大缓存尺寸等
- */
-fun Application.frescoInit() {
-//    val builder = ImagePipelineConfig.newBuilder(this).setDownsampleEnabled(true)
-//    val cache = cache("header")?.absolutePath
-//    if (cache.isNullOrEmpty()) {
-//        throw IllegalStateException("the cache dir is null.")
-//    } else {
-//        val diskCacheConfig = DiskCacheConfig.newBuilder(this).setBaseDirectoryPath(File(cache))
-//            .setBaseDirectoryName(IMAGE_PIPELINE_CACHE_DIR).setMaxCacheSize(
-//                MAX_DISK_CACHE_SIZE
-//            ).setMaxCacheSizeOnLowDiskSpace(MAX_DISK_CACHE_LOW_SIZE)
-//            .setMaxCacheSizeOnVeryLowDiskSpace(
-//                MAX_DISK_CACHE_VERYLOW_SIZE
-//            ).build()
-//        builder.setMainDiskCacheConfig(diskCacheConfig)
-//    }
-//    val config = builder.build()
-//    Fresco.initialize(this, config)
-}
-
 
 

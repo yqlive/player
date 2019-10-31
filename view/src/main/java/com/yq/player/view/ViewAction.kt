@@ -3,6 +3,7 @@ package com.yq.player.view
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
@@ -13,9 +14,20 @@ import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import com.yq.player.rely.async
+import com.yq.player.rely.chain.chain
+import com.yq.player.rely.chain.end
+import com.yq.player.rely.chain.then
+import com.yq.player.rely.childCoroutine
+import com.yq.player.rely.mainCoroutine
+import com.yq.player.rely.untill
 import com.yq.player.view.component.recycler.adapter.DataAdapter
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.jetbrains.anko.AnkoContext
+import java.util.concurrent.TimeUnit
 
 /**-----------------------------------Animate---------------------------------------*/
 fun View.slideTop(startDelay: Int = 0, duration: Int = 200, translationY: Float = 100f) {
@@ -43,6 +55,37 @@ fun View.alphaVary(startDelay: Int = 0, duration: Int = 200) {
     animate()
         .alpha(1f)
         .setStartDelay(startDelay.toLong()).duration = duration.toLong()
+}
+
+object ImageLoader {
+    val client: OkHttpClient = OkHttpClient.Builder()
+        .connectTimeout(15000, TimeUnit.MILLISECONDS)
+        .readTimeout(15000, TimeUnit.MILLISECONDS)
+        .writeTimeout(15000, TimeUnit.MILLISECONDS).build()
+}
+
+fun ImageView.load(url: String) {
+    val call =
+        ImageLoader.client.newCall(Request.Builder().get().url(url).tag(this@load.id).get().build())
+    chain {
+        call.execute()
+    }.then {
+        it.takeIf {
+            it.isSuccessful
+        }?.body?.bytes()
+    }.then{
+        it?.let { bytes ->
+            BitmapFactory.decodeByteArray(bytes,0, bytes.size)
+        }
+    }.end {
+        async(mainCoroutine) {
+            this@load.setImageBitmap(it)
+        }
+    }.onTimeout(16000).onFinally {
+        call.cancel()
+        it.destory()
+    }.call(childCoroutine)
+
 }
 
 /**-----------------------------------Find---------------------------------------*/
@@ -123,7 +166,11 @@ fun <V : View> ViewGroup.forEach(block: (V) -> Unit) {
     for (i in 0 until childCount) block(getChildAt(i) as V)
 }
 
-fun TextView.drawableBounds(drawable: Int = 0, mode: Int = DrawableMode.ALL, block: (Drawable.() -> Unit)? = null) =
+fun TextView.drawableBounds(
+    drawable: Int = 0,
+    mode: Int = DrawableMode.ALL,
+    block: (Drawable.() -> Unit)? = null
+) =
     drawableBounds(drawable(drawable), mode, block)
 
 object DrawableMode {

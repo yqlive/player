@@ -10,7 +10,6 @@ import com.yq.player.base.config.PlayerConfig
 import com.yq.player.base.config.PlayerLibrary
 import com.yq.player.base.entity.DecoderPlan
 import com.yq.player.base.record.PlayRecordManager
-import com.yq.player.frescoInit
 import com.yq.player.httpInit
 import com.yq.player.ipfs.ipfsApiPort
 import com.yq.player.ipfs.ipfsLivePort
@@ -61,7 +60,6 @@ object LivePlayer {
         PlayerLibrary.init(app)
         httpInit()
         ipfsInit()
-        app.frescoInit()
         app.startService(Intent(app, IpfsService::class.java))
         onInited?.let {
             app.registerReceiver(object : BroadcastReceiver() {
