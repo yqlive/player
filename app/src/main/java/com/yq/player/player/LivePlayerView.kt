@@ -29,9 +29,15 @@ import com.yq.player.rely.chain.then
 import com.yq.player.rely.childCoroutine
 import com.yq.player.rely.d
 import com.yq.player.rely.screenWidth
+import com.yq.player.service.apiService
+import kotlin.collections.set
 
 @SuppressLint("RestrictedApi")
-class LivePlayerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : BaseVideoView(context, attrs, defStyleAttr) {
+class LivePlayerView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : BaseVideoView(context, attrs, defStyleAttr) {
 
     private val mReceiverGroup: ReceiverGroup by lazy {
         ReceiverGroup(null).apply {
@@ -127,6 +133,27 @@ class LivePlayerView @JvmOverloads constructor(context: Context, attrs: Attribut
             }
         }
         get() = _resolution
+
+    var liveCode
+        set(value) {
+            if (_liveCode != value) {
+                _liveCode = value
+                chain {
+                    apiService.live(_liveCode).execute().body()
+                }.then {
+                    it?.takeIf { it.success }?.data?.value
+                }.end {
+                    live = it
+                    it?.let {
+                        resolution = it.resolutions.takeIf { it.isNotEmpty() }?.first()?.value
+                            ?: "1080p"
+                    }
+                }.onFinally {
+                    it.destory()
+                }.call(childCoroutine)
+            }
+        }
+        get() = _liveCode
 
     private val closeIO by lazy {
         chain {
