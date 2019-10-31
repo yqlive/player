@@ -133,7 +133,11 @@ class LivePlayerView @JvmOverloads constructor(
         get() = _resolution
 
     @JvmOverloads
-    fun loadLive(liveCode: String, autoPlay: Boolean = false, loaded: ((Boolean) -> Unit)? = null) {
+    fun loadLive(
+        liveCode: String,
+        autoPlay: Boolean? = false,
+        loaded: ((Boolean) -> Unit)? = null
+    ) {
         if (_liveCode != liveCode) {
             _liveCode = liveCode
             chain {
@@ -147,7 +151,7 @@ class LivePlayerView @JvmOverloads constructor(
                         ?: "1080p"
                 }
                 async(mainCoroutine) {
-                    if (autoPlay)
+                    if (autoPlay == true)
                         start()
                 }
                 "success" put it != null
@@ -158,7 +162,7 @@ class LivePlayerView @JvmOverloads constructor(
                 it.destory()
             }.call(childCoroutine)
         } else {
-            if (autoPlay)
+            if (autoPlay == true)
                 start()
             loaded?.invoke(false)
         }
