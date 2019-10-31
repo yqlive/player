@@ -18,10 +18,10 @@ package com.yq.player.player.cover
 
 import android.content.Context
 import android.graphics.PorterDuff
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import com.facebook.drawee.drawable.ScalingUtils
-import com.facebook.drawee.view.SimpleDraweeView
+import android.widget.ImageView
 import com.yq.player.R
 import com.yq.player.apiHost
 import com.yq.player.base.entity.DataSource
@@ -30,14 +30,13 @@ import com.yq.player.base.event.OnErrorEventListener
 import com.yq.player.base.event.OnPlayerEventListener
 import com.yq.player.base.receiver.BaseCover
 import com.yq.player.player.DataInter
-import com.yq.player.service.apiService
-import com.yq.player.service.body
 import com.yq.player.rely.*
 import com.yq.player.rely.chain.chain
 import com.yq.player.rely.chain.end
 import com.yq.player.rely.chain.then
+import com.yq.player.service.apiService
+import com.yq.player.service.body
 import com.yq.player.view.*
-import com.yq.player.view.anko.frescoImage
 import org.jetbrains.anko.*
 import org.jetbrains.anko.constraint.layout.constraintLayout
 import org.jetbrains.anko.constraint.layout.matchConstraint
@@ -135,7 +134,7 @@ class CompleteCover(context: Context) : BaseCover(context) {
                     if (icon.indexOf("http") < 0) {
                         icon = "$apiHost$icon"
                     }
-                    waiting.setImageURI(icon)
+                    waiting.setImageURI(Uri.parse(icon))
                 }
                 statusText.show = true
                 setPlayCompleteState(true)
@@ -159,15 +158,20 @@ class CompleteCover(context: Context) : BaseCover(context) {
     override fun onReceiverEvent(eventCode: Int, bundle: Bundle?) {
     }
 
-    private var waiting by view<SimpleDraweeView>()
+    private var waiting by view<ImageView>()
     private var statusText by view<View>()
     public override fun onCreateCoverView(context: Context): View {
         return context.constraintLayout {
-            waiting = frescoImage(builder = {
-                placeholderImage = drawable(R.drawable.ic_player_default)
-                placeholderImageScaleType = ScalingUtils.ScaleType.CENTER_CROP
-            }, init = {
-            }).lparams(matchConstraint, matchConstraint) {
+            //            waiting = frescoImage(builder = {
+//                placeholderImage = drawable(R.drawable.ic_player_default)
+//                placeholderImageScaleType = ScalingUtils.ScaleType.CENTER_CROP
+//            }, init = {
+//            }).lparams(matchConstraint, matchConstraint) {
+//                centerOf = parentId
+//            }
+            waiting = imageView {
+
+            }.lparams(matchConstraint, matchConstraint) {
                 centerOf = parentId
             }
             statusText = textView {

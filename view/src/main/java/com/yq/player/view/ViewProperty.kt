@@ -16,8 +16,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.facebook.drawee.generic.RoundingParams
-import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.internals.AnkoInternals.noGetter
 
 /**-----------------------------------Property---------------------------------------*/
@@ -177,85 +175,85 @@ const val DEFAULT_VIEW_MAX_SIZE = 350f
 
 //hierarchy.roundingParams = RoundingParams().setRoundAsCircle(true)
 
-var SimpleDraweeView.isRound
-    get() = hierarchy.roundingParams?.roundAsCircle ?: false
-    set(value) {
-        hierarchy.roundingParams = RoundingParams().setRoundAsCircle(value)
-    }
-
-var SimpleDraweeView.cornerRadius
-    get() = hierarchy.roundingParams?.cornersRadii?.average()?.toFloat() ?: 0f
-    set(value) {
-        hierarchy.roundingParams = RoundingParams.fromCornersRadius(value)
-    }
-
-var SimpleDraweeView.cornerRadiusTop
-    get() = (cornerRadiusTopLeft + cornerRadiusTopRight) / 2.0f
-    set(value) {
-        cornerRadiusTopLeft = value
-        cornerRadiusTopRight = value
-    }
-
-var SimpleDraweeView.cornerRadiusBottom
-    get() = (cornerRadiusBottomLeft + cornerRadiusBottomRight) / 2.0f
-    set(value) {
-        cornerRadiusBottomLeft = value
-        cornerRadiusBottomRight = value
-    }
-
-var SimpleDraweeView.cornerRadiusLeft
-    get() = (cornerRadiusTopLeft + cornerRadiusBottomLeft) / 2.0f
-    set(value) {
-        cornerRadiusTopLeft = value
-        cornerRadiusBottomLeft = value
-    }
-
-var SimpleDraweeView.cornerRadiusRight
-    get() = (cornerRadiusTopRight + cornerRadiusBottomRight) / 2.0f
-    set(value) {
-        cornerRadiusTopRight = value
-        cornerRadiusBottomRight = value
-    }
-
-var SimpleDraweeView.cornerRadiusTopLeft
-    get() = hierarchy.roundingParams?.cornersRadii?.let { it[0] }?.toFloat() ?: 0f
-    set(value) {
-        hierarchy.roundingParams =
-            RoundingParams.fromCornersRadii(
-                value,
-                cornerRadiusTopRight, cornerRadiusBottomRight, cornerRadiusBottomLeft
-            )
-    }
-
-var SimpleDraweeView.cornerRadiusTopRight
-    get() = hierarchy.roundingParams?.cornersRadii?.let { it[1] }?.toFloat() ?: 0f
-    set(value) {
-        hierarchy.roundingParams =
-            RoundingParams.fromCornersRadii(
-                cornerRadiusTopLeft, value,
-                cornerRadiusBottomRight, cornerRadiusBottomLeft
-            )
-    }
-
-var SimpleDraweeView.cornerRadiusBottomRight
-    get() = hierarchy.roundingParams?.cornersRadii?.let { it[2] }?.toFloat() ?: 0f
-    set(value) {
-        hierarchy.roundingParams =
-            RoundingParams.fromCornersRadii(
-                cornerRadiusTopLeft,
-                cornerRadiusTopRight, value, cornerRadiusBottomLeft
-            )
-    }
-
-var SimpleDraweeView.cornerRadiusBottomLeft
-    get() = hierarchy.roundingParams?.cornersRadii?.let { it[3] }?.toFloat() ?: 0f
-    set(value) {
-        hierarchy.roundingParams =
-            RoundingParams.fromCornersRadii(
-                cornerRadiusTopLeft,
-                cornerRadiusTopRight, cornerRadiusBottomRight, value
-            )
-    }
+//var SimpleDraweeView.isRound
+//    get() = hierarchy.roundingParams?.roundAsCircle ?: false
+//    set(value) {
+//        hierarchy.roundingParams = RoundingParams().setRoundAsCircle(value)
+//    }
+//
+//var SimpleDraweeView.cornerRadius
+//    get() = hierarchy.roundingParams?.cornersRadii?.average()?.toFloat() ?: 0f
+//    set(value) {
+//        hierarchy.roundingParams = RoundingParams.fromCornersRadius(value)
+//    }
+//
+//var SimpleDraweeView.cornerRadiusTop
+//    get() = (cornerRadiusTopLeft + cornerRadiusTopRight) / 2.0f
+//    set(value) {
+//        cornerRadiusTopLeft = value
+//        cornerRadiusTopRight = value
+//    }
+//
+//var SimpleDraweeView.cornerRadiusBottom
+//    get() = (cornerRadiusBottomLeft + cornerRadiusBottomRight) / 2.0f
+//    set(value) {
+//        cornerRadiusBottomLeft = value
+//        cornerRadiusBottomRight = value
+//    }
+//
+//var SimpleDraweeView.cornerRadiusLeft
+//    get() = (cornerRadiusTopLeft + cornerRadiusBottomLeft) / 2.0f
+//    set(value) {
+//        cornerRadiusTopLeft = value
+//        cornerRadiusBottomLeft = value
+//    }
+//
+//var SimpleDraweeView.cornerRadiusRight
+//    get() = (cornerRadiusTopRight + cornerRadiusBottomRight) / 2.0f
+//    set(value) {
+//        cornerRadiusTopRight = value
+//        cornerRadiusBottomRight = value
+//    }
+//
+//var SimpleDraweeView.cornerRadiusTopLeft
+//    get() = hierarchy.roundingParams?.cornersRadii?.let { it[0] }?.toFloat() ?: 0f
+//    set(value) {
+//        hierarchy.roundingParams =
+//            RoundingParams.fromCornersRadii(
+//                value,
+//                cornerRadiusTopRight, cornerRadiusBottomRight, cornerRadiusBottomLeft
+//            )
+//    }
+//
+//var SimpleDraweeView.cornerRadiusTopRight
+//    get() = hierarchy.roundingParams?.cornersRadii?.let { it[1] }?.toFloat() ?: 0f
+//    set(value) {
+//        hierarchy.roundingParams =
+//            RoundingParams.fromCornersRadii(
+//                cornerRadiusTopLeft, value,
+//                cornerRadiusBottomRight, cornerRadiusBottomLeft
+//            )
+//    }
+//
+//var SimpleDraweeView.cornerRadiusBottomRight
+//    get() = hierarchy.roundingParams?.cornersRadii?.let { it[2] }?.toFloat() ?: 0f
+//    set(value) {
+//        hierarchy.roundingParams =
+//            RoundingParams.fromCornersRadii(
+//                cornerRadiusTopLeft,
+//                cornerRadiusTopRight, value, cornerRadiusBottomLeft
+//            )
+//    }
+//
+//var SimpleDraweeView.cornerRadiusBottomLeft
+//    get() = hierarchy.roundingParams?.cornersRadii?.let { it[3] }?.toFloat() ?: 0f
+//    set(value) {
+//        hierarchy.roundingParams =
+//            RoundingParams.fromCornersRadii(
+//                cornerRadiusTopLeft,
+//                cornerRadiusTopRight, cornerRadiusBottomRight, value
+//            )
+//    }
 
 var GradientDrawable.cornerRadiusTop
     get() = (cornerRadiusTopLeft + cornerRadiusTopRight) / 2.0f

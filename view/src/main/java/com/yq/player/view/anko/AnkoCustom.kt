@@ -5,31 +5,31 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewManager
-import com.facebook.drawee.drawable.ScalingUtils
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
-import com.facebook.drawee.view.SimpleDraweeView
+//import com.facebook.drawee.drawable.ScalingUtils
+//import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
+//import com.facebook.drawee.view.SimpleDraweeView
 import com.yq.player.view.component.recycler.adapter.RecyclerViewAdapter
 import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.custom.ankoView
 import org.jetbrains.anko.internals.AnkoInternals
 
-inline fun ViewManager.frescoImage(
-    ctx: Context = AnkoInternals.getContext(this),
-    theme: Int = 0,
-    builder: GenericDraweeHierarchyBuilder.() -> Unit = {},
-    init: SimpleDraweeView.() -> Unit
-): SimpleDraweeView {
-    return ankoView({
-        SimpleDraweeView(ctx).apply {
-            hierarchy = GenericDraweeHierarchyBuilder(ctx.resources).apply {
-                fadeDuration = 300
-                placeholderImageScaleType = ScalingUtils.ScaleType.CENTER_CROP
-                this.builder()
-            }.build()
-        }
-    }, theme, init)
-}
+//inline fun ViewManager.frescoImage(
+//    ctx: Context = AnkoInternals.getContext(this),
+//    theme: Int = 0,
+//    builder: GenericDraweeHierarchyBuilder.() -> Unit = {},
+//    init: SimpleDraweeView.() -> Unit
+//): SimpleDraweeView {
+//    return ankoView({
+//        SimpleDraweeView(ctx).apply {
+//            hierarchy = GenericDraweeHierarchyBuilder(ctx.resources).apply {
+//                fadeDuration = 300
+//                placeholderImageScaleType = ScalingUtils.ScaleType.CENTER_CROP
+//                this.builder()
+//            }.build()
+//        }
+//    }, theme, init)
+//}
 
 
 fun <T> createAdapter(createBlock: AnkoContext<ViewGroup>.(Int) -> View): RecyclerViewAdapter<T> {

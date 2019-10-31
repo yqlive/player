@@ -6,7 +6,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -15,14 +14,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.drawee.backends.pipeline.PipelineDraweeController
-import com.facebook.drawee.view.SimpleDraweeView
-import com.facebook.imagepipeline.common.ResizeOptions
-import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor
-import com.facebook.imagepipeline.request.ImageRequestBuilder
-import com.facebook.imagepipeline.request.Postprocessor
-import com.yq.player.rely.id2Uri
 import com.yq.player.view.component.recycler.adapter.DataAdapter
 import org.jetbrains.anko.AnkoContext
 
@@ -177,67 +168,67 @@ val lazyId get() = lazy { gid }
 //fun <T : View> Dialog.viewOptional(id: Int) = IdView<T>(id, this)
 
 /**-----------------------------------Others---------------------------------------*/
-@JvmOverloads
-fun SimpleDraweeView.preview(
-    uri: String,
-    w: Int = this.width,
-    h: Int = this.height,
-    maxSiz: Float = DEFAULT_VIEW_MAX_SIZE,
-    auto: Boolean = false
-) {
-    preview(Uri.parse(uri), w, h, maxSiz, auto)
-}
+//@JvmOverloads
+//fun SimpleDraweeView.preview(
+//    uri: String,
+//    w: Int = this.width,
+//    h: Int = this.height,
+//    maxSiz: Float = DEFAULT_VIEW_MAX_SIZE,
+//    auto: Boolean = false
+//) {
+//    preview(Uri.parse(uri), w, h, maxSiz, auto)
+//}
 
 @JvmOverloads
-fun SimpleDraweeView.preview(
-    uri: Uri,
-    w: Int = this.width,
-    h: Int = this.height,
-    maxSiz: Float = DEFAULT_VIEW_MAX_SIZE,
-    auto: Boolean = false
-) {
-    val builder = ImageRequestBuilder.newBuilderWithSource(uri)
-    if (w > 0 && h > 0) {
-        builder.resizeOptions = ResizeOptions(w, h, maxSiz)
-    }
-    val request = builder.build()
-    val controller = Fresco.newDraweeControllerBuilder()
-        .setImageRequest(request)
-        .setTapToRetryEnabled(true)
-        .setAutoPlayAnimations(auto)
-        .setOldController(this.controller)
-        .build() as PipelineDraweeController
-    this.controller = controller
-}
-
-/**
- * 设置图片高斯模糊
- * @param url
- * @param iterations 迭代次数，越大越模化。
- * @param blurRadius 模糊图半径，必须大于0，越大越模糊。
- */
-fun SimpleDraweeView.blurImage(uri: Uri, iterations: Int, blurRadius: Int) {
-    val request = ImageRequestBuilder.newBuilderWithSource(uri)
-        .setPostprocessor(IterativeBoxBlurPostProcessor(iterations, blurRadius) as Postprocessor)
-        .build()
-    val newController = Fresco.newDraweeControllerBuilder()
-        .setOldController(controller)
-        .setImageRequest(request)
-        .build()
-    controller = newController
-}
-
-fun SimpleDraweeView.blurImage(url: String, iterations: Int, blurRadius: Int) {
-    blurImage(Uri.parse(url), iterations, blurRadius)
-}
-
-fun SimpleDraweeView.blurImage(resId: Int, iterations: Int, blurRadius: Int) {
-    blurImage(context.id2Uri(resId), iterations, blurRadius)
-}
-
-fun SimpleDraweeView.setImageURI(resId: Int) {
-    setImageURI(context.id2Uri(resId))
-}
+//fun SimpleDraweeView.preview(
+//    uri: Uri,
+//    w: Int = this.width,
+//    h: Int = this.height,
+//    maxSiz: Float = DEFAULT_VIEW_MAX_SIZE,
+//    auto: Boolean = false
+//) {
+//    val builder = ImageRequestBuilder.newBuilderWithSource(uri)
+//    if (w > 0 && h > 0) {
+//        builder.resizeOptions = ResizeOptions(w, h, maxSiz)
+//    }
+//    val request = builder.build()
+//    val controller = Fresco.newDraweeControllerBuilder()
+//        .setImageRequest(request)
+//        .setTapToRetryEnabled(true)
+//        .setAutoPlayAnimations(auto)
+//        .setOldController(this.controller)
+//        .build() as PipelineDraweeController
+//    this.controller = controller
+//}
+//
+///**
+// * 设置图片高斯模糊
+// * @param url
+// * @param iterations 迭代次数，越大越模化。
+// * @param blurRadius 模糊图半径，必须大于0，越大越模糊。
+// */
+//fun SimpleDraweeView.blurImage(uri: Uri, iterations: Int, blurRadius: Int) {
+//    val request = ImageRequestBuilder.newBuilderWithSource(uri)
+//        .setPostprocessor(IterativeBoxBlurPostProcessor(iterations, blurRadius) as Postprocessor)
+//        .build()
+//    val newController = Fresco.newDraweeControllerBuilder()
+//        .setOldController(controller)
+//        .setImageRequest(request)
+//        .build()
+//    controller = newController
+//}
+//
+//fun SimpleDraweeView.blurImage(url: String, iterations: Int, blurRadius: Int) {
+//    blurImage(Uri.parse(url), iterations, blurRadius)
+//}
+//
+//fun SimpleDraweeView.blurImage(resId: Int, iterations: Int, blurRadius: Int) {
+//    blurImage(context.id2Uri(resId), iterations, blurRadius)
+//}
+//
+//fun SimpleDraweeView.setImageURI(resId: Int) {
+//    setImageURI(context.id2Uri(resId))
+//}
 
 fun View.inLocation(cx: Float, cy: Float): Boolean {
     val location = IntArray(2)
