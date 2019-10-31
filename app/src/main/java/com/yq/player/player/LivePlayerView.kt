@@ -23,12 +23,10 @@ import com.yq.player.ipfs.LIVE
 import com.yq.player.ipfs.ipfs
 import com.yq.player.isTopActivity
 import com.yq.player.player.cover.*
+import com.yq.player.rely.*
 import com.yq.player.rely.chain.chain
 import com.yq.player.rely.chain.end
 import com.yq.player.rely.chain.then
-import com.yq.player.rely.childCoroutine
-import com.yq.player.rely.d
-import com.yq.player.rely.screenWidth
 import com.yq.player.service.apiService
 import kotlin.collections.set
 
@@ -148,12 +146,16 @@ class LivePlayerView @JvmOverloads constructor(
                     resolution = it.resolutions.takeIf { it.isNotEmpty() }?.first()?.value
                         ?: "1080p"
                 }
-                if (autoPlay)
-                    start()
+                async(mainCoroutine) {
+                    if (autoPlay)
+                        start()
+                }
                 "success" put it != null
             }.onFinally {
+                async(mainCoroutine) {
+                    loaded?.invoke("success" take false)
+                }
                 it.destory()
-                loaded?.invoke("success" take false)
             }.call(childCoroutine)
         } else {
             if (autoPlay)
