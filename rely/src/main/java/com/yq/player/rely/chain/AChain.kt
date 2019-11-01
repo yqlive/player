@@ -11,7 +11,7 @@ typealias  Block<S, E> = suspend Box.(S) -> E
  * @param block 任务块
  * @return [Knot] 链节点
  */
-fun <E> chain(block: Box.() -> E) = Knot({ Unit }, { block() })
+fun <E> chain(block: suspend Box.() -> E) = Knot({ Unit }, { block() })
 
 /**+
  *  创建链节点

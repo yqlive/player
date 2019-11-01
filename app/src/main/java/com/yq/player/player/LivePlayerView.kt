@@ -21,6 +21,7 @@ import com.yq.player.base.widget.BaseVideoView
 import com.yq.player.entity.Live
 import com.yq.player.ipfs.LIVE
 import com.yq.player.ipfs.ipfs
+import com.yq.player.ipfs.ipfsWorking
 import com.yq.player.isTopActivity
 import com.yq.player.player.cover.*
 import com.yq.player.rely.*
@@ -140,6 +141,8 @@ class LivePlayerView @JvmOverloads constructor(
         if (_liveCode != liveCode) {
             _liveCode = liveCode
             chain {
+                untill { ipfsWorking }
+            }.then {
                 apiService.live(_liveCode).execute().body()
             }.then {
                 it?.takeIf { it.success }?.data?.value
