@@ -133,42 +133,6 @@ class LivePlayerView @JvmOverloads constructor(
         }
         get() = _resolution
 
-    @JvmOverloads
-    fun loadLive(
-        liveCode: String,
-        loaded: (LivePlayerView.() -> Unit)? = null
-    ) {
-        if (_liveCode != liveCode) {
-            _liveCode = liveCode
-            chain {
-                untill { ipfsWorking }
-            }.then {
-                apiService.live(_liveCode).execute().body()
-            }.then {
-                it?.takeIf { it.success }?.data?.value
-            }.end {
-                async(mainCoroutine) {
-                    live = it
-                    it?.let {
-                        resolution = it.resolutions.takeIf { it.isNotEmpty() }?.first()?.value
-                            ?: "1080p"
-                    }
-                    start()
-                }
-                "success" put it != null
-            }.onFailure { chain, throwable ->
-                e(throwable)
-            }.onFinally {
-                async(mainCoroutine) {
-                    loaded?.invoke(this@LivePlayerView)
-                }
-                it.destory()
-            }.call(childCoroutine)
-        } else {
-            loaded?.invoke(this@LivePlayerView)
-        }
-    }
-
     private val closeIO by lazy {
         chain {
             ipfs.closeLive("liveCode" take _liveCode, "resolution" take _resolution)
@@ -217,7 +181,6 @@ class LivePlayerView @JvmOverloads constructor(
         }
     }
 
-
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
         isLandscape = newConfig?.orientation == Configuration.ORIENTATION_LANDSCAPE
@@ -238,6 +201,43 @@ class LivePlayerView @JvmOverloads constructor(
         this.layoutParams = lp
         onScreenChangeListener?.invoke(isLandscape)
     }
+
+    @JvmOverloads
+    fun loadLive(
+        liveCode: String,
+        loaded: (LivePlayerView.() -> Unit)? = null
+    ) {
+        if (_liveCode != liveCode) {
+            _liveCode = liveCode
+            chain {
+                untill { ipfsWorking }
+            }.then {
+                apiService.live(_liveCode).execute().body()
+            }.then {
+                it?.takeIf { it.success }?.data?.value
+            }.end {
+                async(mainCoroutine) {
+                    live = it
+                    it?.let {
+                        resolution = it.resolutions.takeIf { it.isNotEmpty() }?.first()?.value
+                            ?: "1080p"
+                    }
+                    start()
+                }
+                "success" put it != null
+            }.onFailure { chain, throwable ->
+                e(throwable)
+            }.onFinally {
+                async(mainCoroutine) {
+                    loaded?.invoke(this@LivePlayerView)
+                }
+                it.destory()
+            }.call(childCoroutine)
+        } else {
+            loaded?.invoke(this@LivePlayerView)
+        }
+    }
+
 
     override fun stop() {
         super.stop()

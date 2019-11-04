@@ -24,6 +24,8 @@ object LivePlayer {
     val PLAN_ID_IJK = 1
     val PLAN_ID_EXO = 2
     var ignoreMobile: Boolean = false
+    @JvmOverloads
+    @JvmStatic
     fun init(
         app: Application,
         livePort: Int = 8080,

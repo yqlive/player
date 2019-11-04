@@ -1,6 +1,4 @@
-package com.yq.invitationcat.model
-
-import com.yq.player.entity.Conclusion
+package com.yq.player.entity
 
 /**
  * 接口响应的统一对象

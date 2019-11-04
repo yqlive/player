@@ -1,4 +1,4 @@
-package com.yq.invitationcat.model
+package com.yq.player.entity
 
 open class SingleData<T> : MutableMap<String, T> {
 

@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Point
-import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.support.v4.app.Fragment
@@ -22,78 +21,40 @@ import android.view.WindowManager
 
 /**
  * 注册一个receiver 并会在ondestory时注销receiver
- * 如果该action没有被注册则调用blo创建对应的receiver进行注册
- * 否则不再注册
  * @param action
  * @param blo
  */
-fun Context.bindReceiver(action: String, blo: (Intent?) -> Unit) {
+fun FragmentActivity.bindReceiver(vararg actions: String, blo: Context?.(Intent?) -> Unit) {
     val filter = IntentFilter()
-    val resolveInfos = packageManager.queryBroadcastReceivers(Intent(action), 0)
-    if (resolveInfos.isNullOrEmpty()) {
-        filter.addAction(action)
-        bindReceiver(NormalBroadcastReceiver { _, i ->
-            blo(i)
-        }, filter)
+    actions.forEach {
+        filter.addAction(it)
     }
+    val receiver = NormalBroadcastReceiver { ctx, i ->
+        ctx.blo(i)
+    }
+    registerReceiver(receiver, filter)
+    lifecycle.addObserver(GenericLifecycleObserver { _, event ->
+        when (event) {
+            Lifecycle.Event.ON_DESTROY -> {
+                unregisterReceiver(receiver)
+            }
+            else -> {
+            }
+        }
+    })
 }
 
-class NormalBroadcastReceiver(private val blo: (context: Context?, intent: Intent?) -> Unit) : BroadcastReceiver() {
+fun Fragment.bindReceiver(vararg actions: String, blo: Context?.(Intent?) -> Unit) {
+    requireActivity().bindReceiver(*actions) { this.blo(it) }
+}
+
+private class NormalBroadcastReceiver(private val blo: (context: Context?, intent: Intent?) -> Unit) :
+    BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         blo(context, intent)
     }
 }
 
-
-/**
- * 注册一个receiver 并会在ondestory时注销receiver
- */
-fun Context.bindReceiver(receiver: BroadcastReceiver, vararg actions: String) {
-    val filter = IntentFilter()
-    actions.forEach {
-        //如果该action已经注册过则不再注册
-//        val resolveInfos = packageManager.queryBroadcastReceivers(Intent(it), 0)
-//        if (resolveInfos.isNullOrEmpty()) {
-        filter.addAction(it)
-//        }
-    }
-    bindReceiver(receiver, filter)
-}
-
-
-fun Context.bindReceiver(receiver: BroadcastReceiver, filter: IntentFilter) {
-
-    when (this) {
-        is FragmentActivity -> {
-            registerReceiver(receiver, filter)
-            lifecycle.addObserver(GenericLifecycleObserver { _, event ->
-                when (event) {
-                    Lifecycle.Event.ON_DESTROY -> {
-                        unregisterReceiver(receiver)
-                    }
-                    else -> {
-                    }
-                }
-            })
-        }
-        is Fragment -> {
-            context!!.registerReceiver(receiver, filter)
-            lifecycle.addObserver(GenericLifecycleObserver { _, event ->
-                when (event) {
-                    Lifecycle.Event.ON_DESTROY -> {
-                        unregisterReceiver(receiver)
-                    }
-                    else -> {
-                    }
-                }
-            })
-        }
-        else -> {
-            registerReceiver(receiver, filter)
-        }
-    }
-
-}
 
 val Context.screenWidth get() = ScreenSize[0]
 val Context.screenHeight get() = ScreenSize[1]

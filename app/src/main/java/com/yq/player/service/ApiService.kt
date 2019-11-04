@@ -2,7 +2,7 @@ package com.yq.player.service
 
 import com.yq.player.entity.Live
 import com.yq.player.http.api
-import com.yq.invitationcat.model.Tribute
+import com.yq.player.entity.Tribute
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
