@@ -3,6 +3,16 @@
 
 # 使用
 
+[![](https://jitpack.io/v/yqlive/player.svg)](https://jitpack.io/#yqlive/player)
+
+添加如下依赖 <br>
+
+```gradle
+dependencies {
+  implementation 'com.github.yqlive:player:0.2.7'
+}
+```
+
 需要的权限，如果targetSDK版本在Android M以上的，请注意运行时权限的处理。<br>
 
 ```xml
@@ -15,14 +25,6 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-```
-
-添加如下依赖<br>
-
-```gradle
-dependencies {
-  implementation 'com.github.yqlive:player:0.0.10'
-}
 ```
 
 由于播放内核使用到了exoplayer的库，需要在gradle中增加如下配置。
