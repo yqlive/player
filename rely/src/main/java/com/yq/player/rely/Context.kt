@@ -24,14 +24,26 @@ import android.view.WindowManager
  * @param action
  * @param blo
  */
-fun FragmentActivity.bindReceiver(vararg actions: String, blo: Context?.(Intent?) -> Unit) {
+fun Any.bindReceiver(vararg actions: String, blo: Context?.(Intent?) -> Unit) {
+    val receiver = NormalBroadcastReceiver { ctx, i ->
+        ctx.blo(i)
+    }
+    bindReceiver(*actions, receiver = receiver)
+}
+
+fun Any.bindReceiver(vararg actions: String, receiver: BroadcastReceiver) {
     val filter = IntentFilter()
     actions.forEach {
         filter.addAction(it)
     }
-    val receiver = NormalBroadcastReceiver { ctx, i ->
-        ctx.blo(i)
+    when (this) {
+        is Fragment -> requireActivity().bindReceiver(receiver, filter)
+        is FragmentActivity -> bindReceiver(receiver, filter)
+        is Context -> registerReceiver(receiver, filter)
     }
+}
+
+fun FragmentActivity.bindReceiver(receiver: BroadcastReceiver, filter: IntentFilter) {
     registerReceiver(receiver, filter)
     lifecycle.addObserver(GenericLifecycleObserver { _, event ->
         when (event) {
@@ -44,9 +56,9 @@ fun FragmentActivity.bindReceiver(vararg actions: String, blo: Context?.(Intent?
     })
 }
 
-fun Fragment.bindReceiver(vararg actions: String, blo: Context?.(Intent?) -> Unit) {
-    requireActivity().bindReceiver(*actions) { this.blo(it) }
-}
+//fun Fragment.bindReceiver(vararg actions: String, blo: Context?.(Intent?) -> Unit) {
+//    requireActivity().bindReceiver(*actions) { this.blo(it) }
+//}
 
 private class NormalBroadcastReceiver(private val blo: (context: Context?, intent: Intent?) -> Unit) :
     BroadcastReceiver() {

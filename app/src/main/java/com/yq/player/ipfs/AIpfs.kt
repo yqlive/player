@@ -111,8 +111,9 @@ fun Context.bindIpfs(listener: IpfsListener? = null): IpfsManager {
                         i("on IpfsEvents.INITED", "IPFS")
                         if (!bindedWifiReceiver) {//首次绑定IPFSService后才开始监听wifi状态
                             bindReceiver(
-                                netReceiver, ConnectivityManager.CONNECTIVITY_ACTION,
-                                NetReceiver.ACTION_WIFI_SETTING_CHANGED
+                                ConnectivityManager.CONNECTIVITY_ACTION,
+                                NetReceiver.ACTION_WIFI_SETTING_CHANGED,
+                                receiver = netReceiver
                             )
                             bindedWifiReceiver = true
                         }
