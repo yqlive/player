@@ -11,6 +11,9 @@ data class Live(
     val code: String = "",
     val viewNum: Long = 0,
     val icon: String = "",
+    val league: League? = null,
+    val project: Project? = null,
+    val teams: ArrayList<Team> = arrayListOf(),
     val resolutions: ArrayList<Resolution> = arrayListOf()
 ) : Parcelable {
     constructor(source: Parcel) : this(
@@ -20,7 +23,10 @@ data class Live(
         source.readString(),
         source.readLong(),
         source.readString(),
-        ArrayList<Resolution>().apply { source.readList(this, Resolution::class.java.classLoader) }
+        source.readParcelable<League>(League::class.java.classLoader),
+        source.readParcelable<Project>(Project::class.java.classLoader),
+        source.createTypedArrayList(Team.CREATOR),
+        source.createTypedArrayList(Resolution.CREATOR)
     )
 
     override fun describeContents() = 0
@@ -32,7 +38,10 @@ data class Live(
         writeString(code)
         writeLong(viewNum)
         writeString(icon)
-        writeList(resolutions)
+        writeParcelable(league, 0)
+        writeParcelable(project, 0)
+        writeTypedList(teams)
+        writeTypedList(resolutions)
     }
 
     companion object {
