@@ -5,6 +5,17 @@
 
 [![](https://jitpack.io/v/yqlive/player.svg)](https://jitpack.io/#yqlive/player)
 
+在proj.android-studio.build.gradle加入仓库配置
+
+```gradle 
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }//放在google()和jcenter()之前
+        //...
+    }
+}
+```
+
 添加如下依赖 <br>
 
 ```gradle
