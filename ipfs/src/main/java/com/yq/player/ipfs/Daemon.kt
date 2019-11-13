@@ -146,7 +146,7 @@ class Daemon(private val _context: Context) {
         var newstVersion: String? = null
 
         private val binaryFile by lazy { File(rootDir, "ipfsbin") }
-        private val repoPath by lazy { File(rootDir, ".ipfs_repo") }
+        private val repoPath by lazy { File(rootDir, "ipfs_repo") }
         private val swarmKeyFile by lazy { File(repoPath, "swarm.key") }
 
         private val keysDir by lazy { File("$repoPath/keys") }

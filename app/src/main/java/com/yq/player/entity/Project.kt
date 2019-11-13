@@ -3,7 +3,7 @@ package com.yq.player.entity
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Project(val img: String, val name: String, val ranking: Int, val _id: String) :
+data class Project(val img: String?, val name: String, val ranking: Int, val _id: String) :
     Parcelable {
     constructor(source: Parcel) : this(
         source.readString(),

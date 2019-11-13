@@ -49,6 +49,18 @@ class LivePlayerView @JvmOverloads constructor(
         }
     }
 
+
+    var isFullScreen
+        get() = isLandscape
+        set(value) {
+            if (context is Activity)
+                context.asto<Activity> {
+                    requestedOrientation =
+                        if (value) ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                    onScreenChangeListener?.invoke(value)
+                }
+        }
+
     private var userPause: Boolean = false
     private var isLandscape: Boolean = false
 
@@ -60,15 +72,14 @@ class LivePlayerView @JvmOverloads constructor(
                 DataInter.Event.EVENT_CODE_REQUEST_BACK ->
                     if (context is Activity) {
                         if (isLandscape) {
-                            context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                            isFullScreen = false
                         } else {
                             context.finish()
                         }
                     }
                 DataInter.Event.EVENT_CODE_REQUEST_TOGGLE_SCREEN -> {
                     if (context is Activity) {
-                        context.requestedOrientation =
-                            if (isLandscape) ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                        isFullScreen = !isLandscape
                     }
                 }
                 DataInter.Event.EVENT_CODE_ERROR_SHOW -> stop()
@@ -199,7 +210,6 @@ class LivePlayerView @JvmOverloads constructor(
             lp.height = lp.width * 9 / 16
         }
         this.layoutParams = lp
-        onScreenChangeListener?.invoke(isLandscape)
     }
 
     @JvmOverloads
