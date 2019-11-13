@@ -7,10 +7,12 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -298,3 +300,12 @@ val RecyclerView.itemViews: Collection<View>
         }
         return views
     }
+
+fun RecyclerView.addDivider(
+    orientation: Int = DividerItemDecoration.HORIZONTAL,
+    index: Int = -1, block: GradientDrawable.() -> Unit
+) {
+    val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+    dividerItemDecoration.setDrawable(com.yq.player.view.enko.drawable(block))
+    addItemDecoration(dividerItemDecoration)
+}

@@ -22,7 +22,7 @@ class IpfsManager(private val _context: Context, val events: ((IpfsEvents) -> Un
     private val daemon by lazy {
         Daemon(_context)
             .root(_context.filesDir)//如果使用外部路径会因为没有权限报错
-            .repo(_context.file(".ipfs_repo"))//设置ipfs的仓库路径，建议设置为外部存储器，以减少内部空间的占用
+            .repo(_context.file("ipfs_repo"))//设置ipfs的仓库路径，建议设置为外部存储器，以减少内部空间的占用
 //            .swarmkey(swarmkeyWord)
 //            .bootstraps(BOOTSTRAPS)
 //            .privateKey(privateKey)
@@ -31,7 +31,7 @@ class IpfsManager(private val _context: Context, val events: ((IpfsEvents) -> Un
             .gatewayPort(ipfsLivePort)
             .apiPort(ipfsApiPort)
             .swarmPort(ipfsSwarmPort)
-//            .newestVersion(IPFS_VERSION)
+            .newestVersion("0.2.3")
             .started {
                 _isStarting = false
                 d("init is _centerInited:$_centerInited", "IPFS")

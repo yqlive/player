@@ -160,14 +160,18 @@ class Daemon(private val _context: Context) {
 
         fun init() {
             initialized = false
-            if (!binaryFile.exists() || checkUpdate()) {//如果该文件不存在，则表示没有安装 或者已存在，但是需要更新
+            var toUpdate = false
+            if (!binaryFile.exists() || checkUpdate().apply {
+                    toUpdate = this
+                }) {//如果该文件不存在，则表示没有安装 或者已存在，但是需要更新
                 try {
                     t("$TAG install files") {
                         install()//开始安装
                     }
-                    t("$TAG run init cmd") {
-                        run("init")//完成安装后执行初始化命令
-                    }
+                    if (!toUpdate)
+                        t("$TAG run init cmd") {
+                            run("init")//完成安装后执行初始化命令
+                        }
 
                     if (apiPort > 0 && apiPort != 5001)
                         run("config Addresses.API /ip4/127.0.0.1/tcp/$apiPort")
@@ -263,7 +267,7 @@ class Daemon(private val _context: Context) {
         private fun checkUpdate(): Boolean {
             d("IPFS NEW VERSION:$newstVersion", TAG)
             if (newstVersion.isNullOrEmpty())
-                return true
+                return false
             val installedVersion =
                 logStream(
                     run(
@@ -296,7 +300,7 @@ class Daemon(private val _context: Context) {
             d("cmd: [$cmd] finished for time: " + (System.currentTimeMillis() - time), TAG)
             if (code != 0) {
                 if (error.indexOf("ipfs configuration file already exists!") < 0)
-                    throw DaemonException("IPFS Cmd Exception:\n$error")
+                    throw DaemonException("IPFS Cmd [$cmd] Exception:\n$error")
             }
             return exec
         }
@@ -313,7 +317,7 @@ class Daemon(private val _context: Context) {
                 val error = logStream(exec.errorStream, cmd, "error", true)
                 logStream(exec.inputStream)
                 if (exec.waitFor() != 0) {
-                    throw DaemonException("IPFS Cmd Exception:\n$error")
+                    throw DaemonException("IPFS Cmd [$cmd] Exception:\n$error")
                 }
             }
             return exec
