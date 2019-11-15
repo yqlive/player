@@ -1,6 +1,5 @@
 package com.yq.player.rely.timer
 
-import android.content.Context
 import android.os.Handler
 import android.os.Message
 
@@ -36,7 +35,10 @@ class HandlerTimer(
     fun stop() {
         work = false
     }
+
+    val isWorking
+        get() = work
 }
 
-fun Context.handlerTimer(period: Long = 0, delay: Long = 0, todo: () -> Unit) =
+fun Any.handlerTimer(period: Long = 0, delay: Long = 0, todo: () -> Unit) =
     HandlerTimer(hashCode(), period, delay, todo)

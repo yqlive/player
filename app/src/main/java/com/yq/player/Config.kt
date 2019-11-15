@@ -1,26 +1,15 @@
 package com.yq.player
 
-import android.app.Application
 import com.google.gson.JsonDeserializer
 import com.yq.player.http.Http
 import com.yq.player.http.addGsonConverter
 import com.yq.player.http.interceptor
 import com.yq.player.http.interceptor.FilterLoggingInterceptor
 import com.yq.player.ipfs.ipfsHttp
-import com.yq.player.rely.MB
-import com.yq.player.rely.cache
 import okhttp3.ResponseBody.Companion.toResponseBody
-import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-
-/***************************** OTHER ***************************/
-private const val MAX_DISK_CACHE_VERYLOW_SIZE = 20 * MB
-private const val MAX_DISK_CACHE_LOW_SIZE = 60 * MB
-private const val MAX_DISK_CACHE_SIZE = 100 * MB
-
-private const val IMAGE_PIPELINE_CACHE_DIR = "ImagePipeLine"
 
 val apiHost = "https://wsrv.tvc6.cn/"
 //val apiHost = "http://111.6.79.35:7001/"

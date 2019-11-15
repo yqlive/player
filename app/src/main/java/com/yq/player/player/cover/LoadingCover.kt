@@ -5,10 +5,18 @@ import android.os.Bundle
 import android.view.View
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
+import com.yq.player.base.entity.DataSource
+import com.yq.player.base.event.EventKey
 import com.yq.player.base.event.OnPlayerEventListener
 import com.yq.player.base.player.IPlayer
 import com.yq.player.base.receiver.BaseCover
 import com.yq.player.base.receiver.PlayerStateGetter
+import com.yq.player.ipfs.ipfs
+import com.yq.player.rely.async
+import com.yq.player.rely.childCoroutine
+import com.yq.player.rely.launch
+import com.yq.player.rely.mainCoroutine
+import com.yq.player.rely.timer.handlerTimer
 import com.yq.player.view.centerOf
 import com.yq.player.view.parentId
 import com.yq.player.view.view
@@ -46,15 +54,36 @@ class LoadingCover(context: Context) : BaseCover(context) {
                 && state != IPlayer.STATE_STOPPED)
     }
 
+    private var code: String = ""
+    private var resolution: String = ""
+    private var loadingTime = 0L
+    private val loadingTimer by lazy {
+        context.handlerTimer(100, 100) {
+            loadingTime += 100
+        }
+    }
+
     override fun onPlayerEvent(eventCode: Int, bundle: Bundle?) {
         when (eventCode) {
-            OnPlayerEventListener.PLAYER_EVENT_ON_BUFFERING_START, OnPlayerEventListener.PLAYER_EVENT_ON_DATA_SOURCE_SET, OnPlayerEventListener.PLAYER_EVENT_ON_PROVIDER_DATA_START, OnPlayerEventListener.PLAYER_EVENT_ON_SEEK_TO -> setLoadingState(
-                true
-            )
-
-            OnPlayerEventListener.PLAYER_EVENT_ON_VIDEO_RENDER_START, OnPlayerEventListener.PLAYER_EVENT_ON_BUFFERING_END, OnPlayerEventListener.PLAYER_EVENT_ON_STOP, OnPlayerEventListener.PLAYER_EVENT_ON_PROVIDER_DATA_ERROR, OnPlayerEventListener.PLAYER_EVENT_ON_SEEK_COMPLETE -> setLoadingState(
-                false
-            )
+            OnPlayerEventListener.PLAYER_EVENT_ON_DATA_SOURCE_SET -> {
+                (bundle?.getSerializable(EventKey.SERIALIZABLE_DATA) as? DataSource)?.let { dataSource ->
+                    code = dataSource.extra["code"] ?: "1080p"
+                    resolution = dataSource.extra["resolution"] ?: "1080p"
+                }
+                loadingTime = 0
+                setLoadingState(true)
+            }
+            OnPlayerEventListener.PLAYER_EVENT_ON_BUFFERING_START,
+            OnPlayerEventListener.PLAYER_EVENT_ON_PROVIDER_DATA_START,
+            OnPlayerEventListener.PLAYER_EVENT_ON_SEEK_TO -> {
+                setLoadingState(true)
+            }
+            OnPlayerEventListener.PLAYER_EVENT_ON_VIDEO_RENDER_START,
+            OnPlayerEventListener.PLAYER_EVENT_ON_BUFFERING_END,
+            OnPlayerEventListener.PLAYER_EVENT_ON_STOP,
+            OnPlayerEventListener.PLAYER_EVENT_ON_PROVIDER_DATA_ERROR,
+            OnPlayerEventListener.PLAYER_EVENT_ON_SEEK_COMPLETE ->
+                setLoadingState(false)
         }
     }
 
@@ -67,11 +96,30 @@ class LoadingCover(context: Context) : BaseCover(context) {
     }
 
     private fun setLoadingState(show: Boolean) {
+        if (show && code.isNotEmpty() && resolution.isNotEmpty())
+            ipfs.reportWaiting(code, resolution)
+
+
+        val showing = view.visibility == View.VISIBLE
         setCoverVisibility(if (show) View.VISIBLE else View.GONE)
-        if (show)
+        if (show && showing) {
+            loadingTime = 0
+            loadingTimer.start()
             animationView.resumeAnimation()
-        else
+        } else if (!show && !showing) {
+            loadingTimer.stop()
+            if (loadingTime > 0) {
+                launch(mainCoroutine) {
+                    val time = loadingTime
+                    loadingTime = 0
+                    async(childCoroutine) {
+                        ipfs.reportLoaded(code, resolution, time).execute()
+                    }
+                }
+            }
+
             animationView.pauseAnimation()
+        }
     }
 
     public override fun onCreateCoverView(context: Context): View {

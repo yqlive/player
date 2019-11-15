@@ -9,6 +9,8 @@ var apiPort: Int = 5110
 var gatewayPort: Int = 8080
 var swarmPort: Int = 4001
 
+var configFile = arrayListOf<Pair<String, String>>()
+
 val ROOT
     get() = "http://127.0.0.1:$gatewayPort/ipfs/"
 

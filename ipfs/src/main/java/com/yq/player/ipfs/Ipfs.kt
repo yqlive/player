@@ -75,6 +75,12 @@ interface Ipfs {
     @GET("live/close/{code}")
     fun closeLive(@Path("code") code: String, @Query("arg") vp: String? = ""): Call<ResponseBody>
 
+    @GET("live/report/loaded/{code}")
+    fun reportLoaded(@Path("code") code: String, @Query("arg") resolution: String, @Query("arg") duration: Long = 0): Call<ResponseBody>
+
+    @GET("live/report/waiting/{code}")
+    fun reportWaiting(@Path("code") code: String, @Query("arg") resolution: String, @Query("arg") times: Int = 1): Call<ResponseBody>
+
 //    @POST("share/on")
 //    fun shareOn(): Call<String>
 //

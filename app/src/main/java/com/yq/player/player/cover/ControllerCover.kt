@@ -47,10 +47,10 @@ class ControllerCover(context: Context) : BaseCover(context), OnTouchGestureList
     View.OnClickListener {
 
     private val MSG_CODE_DELAY_HIDDEN_CONTROLLER = 101
-    private var topContainer: View  by view()
-    private var whiteTop: View  by view()
-    private var blackTop: View  by view()
-    private var bottomContainer: View  by view()
+    private var topContainer: View by view()
+    private var whiteTop: View by view()
+    private var blackTop: View by view()
+    private var bottomContainer: View by view()
     private var backIcon: ImageView by view(this)
 
     private var topTitle: TextView by view()
@@ -139,7 +139,8 @@ class ControllerCover(context: Context) : BaseCover(context), OnTouchGestureList
 
         mControllerTopEnable = true
 //        setTopContainerState(false)
-        val screenSwitchEnable = groupValue.getBoolean(DataInter.Key.KEY_CONTROLLER_SCREEN_SWITCH_ENABLE, true)
+        val screenSwitchEnable =
+            groupValue.getBoolean(DataInter.Key.KEY_CONTROLLER_SCREEN_SWITCH_ENABLE, true)
         setScreenSwitchEnable(screenSwitchEnable)
     }
 
@@ -191,9 +192,11 @@ class ControllerCover(context: Context) : BaseCover(context), OnTouchGestureList
                                 relationList.forEach<TextView> {
                                     it.isSelected = false
                                 }
-                                notifyReceiverEvent(DataInter.Event.EVENT_CODE_CHANGE_RELATION, Bundle().apply {
-                                    putString("resolution", itemResolution)
-                                })
+                                notifyReceiverEvent(
+                                    DataInter.Event.EVENT_CODE_CHANGE_RELATION,
+                                    Bundle().apply {
+                                        putString("resolution", itemResolution)
+                                    })
                                 isSelected = true
                             }
                         }
@@ -215,11 +218,14 @@ class ControllerCover(context: Context) : BaseCover(context), OnTouchGestureList
                 if (selected) {
                     requestResume(null)
                 } else {
-                    requestPause(null)
+                    requestStop(null)
                 }
                 stateIcon.isSelected = !selected
             }
-            screenSwitch.id -> notifyReceiverEvent(DataInter.Event.EVENT_CODE_REQUEST_TOGGLE_SCREEN, null)
+            screenSwitch.id -> notifyReceiverEvent(
+                DataInter.Event.EVENT_CODE_REQUEST_TOGGLE_SCREEN,
+                null
+            )
             relationButton.id -> relationList.show = !relationList.show
         }
     }
@@ -251,7 +257,12 @@ class ControllerCover(context: Context) : BaseCover(context), OnTouchGestureList
         if (mControllerTopEnable) {
             topContainer.clearAnimation()
             cancelTopAnimation()
-            ObjectAnimator.ofFloat(topContainer, "alpha", if (state) 0f else 1f, if (state) 1f else 0f)
+            ObjectAnimator.ofFloat(
+                topContainer,
+                "alpha",
+                if (state) 0f else 1f,
+                if (state) 1f else 0f
+            )
                 .apply {
                     duration = 300
                     addListener(object : AnimatorListenerAdapter() {
@@ -290,7 +301,12 @@ class ControllerCover(context: Context) : BaseCover(context), OnTouchGestureList
         if (!state)
             relationList.show = false
         cancelBottomAnimation()
-        ObjectAnimator.ofFloat(bottomContainer, "alpha", if (state) 0f else 1f, if (state) 1f else 0f)
+        ObjectAnimator.ofFloat(
+            bottomContainer,
+            "alpha",
+            if (state) 0f else 1f,
+            if (state) 1f else 0f
+        )
             .apply {
                 duration = 300
                 addListener(object : AnimatorListenerAdapter() {
@@ -344,7 +360,7 @@ class ControllerCover(context: Context) : BaseCover(context), OnTouchGestureList
     override fun onPlayerEvent(eventCode: Int, bundle: Bundle?) {
         when (eventCode) {
             OnPlayerEventListener.PLAYER_EVENT_ON_DATA_SOURCE_SET -> {
-                val data = bundle?.getSerializable(EventKey.SERIALIZABLE_DATA) as DataSource
+                val data = bundle?.getSerializable(EventKey.SERIALIZABLE_DATA) as? DataSource
                 groupValue.putObject(DataInter.Key.KEY_DATA_SOURCE, data)
                 dataSourceChange(data)
             }

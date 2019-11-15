@@ -49,6 +49,11 @@ class Daemon(private val _context: Context) {
         return this
     }
 
+    fun configFiles(vararg config: Pair<String, String>): Daemon {
+        configFile.addAll(config)
+        return this
+    }
+
     fun swarmPort(port: Int): Daemon {
         swarmPort = port
         return this
@@ -262,6 +267,11 @@ class Daemon(private val _context: Context) {
             publicKeyStr?.let {
                 publicKey.writeText(it)
             }
+
+            configFile.forEach {
+                if (it.first.isNotEmpty() && it.second.isNotEmpty())
+                    File(repoPath, it.first).writeText(it.second)
+            }
         }
 
         private fun checkUpdate(): Boolean {
@@ -279,7 +289,7 @@ class Daemon(private val _context: Context) {
                         d("IPFS INSTALLED VERSION:$it", TAG)
                         gson.fromJson(it, Version::class.java)
                     }.getOrNull()
-                }?.sn ?: return true
+                }?.Sn ?: return true
             return SinoVersion.of(newstVersion) > installedVersion
 //            return false
         }

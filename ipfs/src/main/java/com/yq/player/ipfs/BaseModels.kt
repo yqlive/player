@@ -61,7 +61,7 @@ data class Version(
     val Commit: String,
     val System: String,
     val Golang: String,
-    val sn: SinoVersion
+    val Sn: SinoVersion
 )
 
 data class IORate(

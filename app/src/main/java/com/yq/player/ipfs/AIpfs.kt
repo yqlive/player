@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import com.yq.player.Settings
+import com.yq.player.apiHost
 import com.yq.player.rely.bindReceiver
 import com.yq.player.rely.d
 import com.yq.player.rely.file
@@ -28,6 +29,7 @@ class IpfsManager(private val _context: Context, val events: ((IpfsEvents) -> Un
 //            .privateKey(privateKey)
 //            .publicKey(publicKey)
 //            .apiPort(5019)
+            .configFiles("sn.config" to "{\"Live\":{\"Host\":\"$apiHost\",\"Platform\":\"android\"}}")
             .gatewayPort(ipfsLivePort)
             .apiPort(ipfsApiPort)
             .swarmPort(ipfsSwarmPort)
