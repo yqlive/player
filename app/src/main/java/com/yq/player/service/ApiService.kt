@@ -18,7 +18,8 @@ interface ApiService {
         @Query("project") project: String? = null,
         @Query("league") league: String? = null,
         @Query("channel") channel: String? = null,
-        @Query("status") status: String? = null
+        @Query("status") status: String? = null,
+        @Query("origin") origin: String? = null
     ): Call<Tribute<List<Live>>>
 
     @GET("race")
