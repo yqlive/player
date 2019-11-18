@@ -43,5 +43,5 @@ dependencies {
     api 'com.android.support.constraint:constraint-layout:1.1.3'
 
     //lottie动画
-    api 'com.airbnb.android:lottie:2.7.0' //最高版本已到3.0+ 但从2.8.0就开始适配androidX了，故此采用较低版本
+    api 'com.airbnb.android:lottie:3.0.3-support' //最高版本已到3.0+ 但从2.8.0就开始适配androidX了，故此采用较低版本
 }

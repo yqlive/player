@@ -32,6 +32,7 @@ import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.RenderersFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.BehindLiveWindowException;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MergingMediaSource;
@@ -108,6 +109,8 @@ public class ExoMediaPlayer extends BaseInternalPlayer {
 
     }
 
+    MediaSource mediaSource;
+
     @Override
     public void setDataSource(DataSource dataSource) {
         updateStatus(STATE_INITIALIZED);
@@ -169,7 +172,7 @@ public class ExoMediaPlayer extends BaseInternalPlayer {
         isPreparing = true;
 
         //create MediaSource
-        MediaSource mediaSource = getMediaSource(videoUri, dataSourceFactory);
+        mediaSource = getMediaSource(videoUri, dataSourceFactory);
 
         //handle timed text source
         TimedTextSource timedTextSource = dataSource.getTimedTextSource();
@@ -479,7 +482,11 @@ public class ExoMediaPlayer extends BaseInternalPlayer {
             int type = error.type;
             switch (type) {
                 case ExoPlaybackException.TYPE_SOURCE:
-                    submitErrorEvent(OnErrorEventListener.ERROR_EVENT_IO, null);
+                    if (error.getCause() instanceof BehindLiveWindowException && mediaSource != null) {
+                        mInternalPlayer.prepare(mediaSource);
+                    } else {
+                        submitErrorEvent(OnErrorEventListener.ERROR_EVENT_IO, null);
+                    }
                     break;
                 case ExoPlaybackException.TYPE_RENDERER:
                     submitErrorEvent(OnErrorEventListener.ERROR_EVENT_COMMON, null);
