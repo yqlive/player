@@ -36,7 +36,7 @@ fun String.toDate(): Date? {
         try {
             result = format.parse(this)
         } catch (var5: ParseException) {
-            var5.w()
+            w(var5)
         }
 
         return result
@@ -63,7 +63,7 @@ fun String.forDate(
             dd = SimpleDateFormat(sourcePattern)
             dd.format(parse)
         } catch (var5: ParseException) {
-            var5.w()
+            w(var5)
             null
         }
 
@@ -74,7 +74,7 @@ fun String.forDate(
 
 fun Long.toDate() = Date(this)
 
-val currentTimeMillis:Long
+val currentTimeMillis: Long
     get() = System.currentTimeMillis()
 
 val currentTime: Date
@@ -176,6 +176,69 @@ fun Date.additionDate(value: Int, dateUnit: DateUnit): Date {
 //日期减法，根据日期单位加减
 fun Date.subtraction(value: Int, dateUnit: DateUnit): Date {
     return this.additionDate(value * -1, dateUnit)
+}
+
+inline val Date.ofMonth: Int
+    get() {
+        val cal = Calendar.getInstance()
+        cal.time = this
+        return cal.get(Calendar.MONTH)
+    }
+inline val Date.ofDay: Int
+    get() {
+        val cal = Calendar.getInstance()
+        cal.time = this
+        return cal.get(Calendar.DAY_OF_MONTH)
+    }
+inline val Date.ofWeek: Int
+    get() {
+        val cal = Calendar.getInstance()
+        cal.time = this
+        return cal.get(Calendar.DAY_OF_WEEK)
+    }
+
+inline val Calendar.ofMonth: Int
+    get() {
+        return get(Calendar.MONTH)
+    }
+inline val Calendar.ofDay: Int
+    get() {
+        return get(Calendar.DAY_OF_MONTH)
+    }
+inline val Calendar.ofWeek: Int
+    get() {
+        return get(Calendar.DAY_OF_WEEK)
+    }
+
+
+fun Date.isSameDay(date2: Date): Boolean {
+    val cal1 = Calendar.getInstance()
+    cal1.time = this
+    val cal2 = Calendar.getInstance()
+    cal2.time = date2
+    return cal1.isSameDay(cal2)
+}
+
+fun Calendar.isSameDay(cal2: Calendar): Boolean {
+    return get(Calendar.ERA) == cal2.get(Calendar.ERA) && get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && get(
+        Calendar.DAY_OF_YEAR
+    ) == cal2.get(Calendar.DAY_OF_YEAR)
+}
+
+ fun Date.isSameTime(date2: Date): Boolean {
+    val cal1 = Calendar.getInstance()
+    cal1.time = this
+    val cal2 = Calendar.getInstance()
+    cal2.time = date2
+    return cal1.isSameTime(cal2)
+}
+
+ fun Calendar.isSameTime(cal2: Calendar): Boolean {
+    return get(Calendar.ERA) == cal2.get(Calendar.ERA)
+            && get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+            && get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
+            && get(Calendar.HOUR_OF_DAY) == cal2.get(Calendar.HOUR_OF_DAY)
+            && get(Calendar.MINUTE) == cal2.get(Calendar.MINUTE)
 }
 
 //日期加法，日期单位为天

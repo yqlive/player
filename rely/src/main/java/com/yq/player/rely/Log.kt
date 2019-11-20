@@ -2,50 +2,30 @@ package com.yq.player.rely
 
 import android.util.Log
 
-//import com.tencent.bugly.crashreport.BuglyLog
-//import com.tencent.bugly.crashreport.CrashReport
-
-fun <T : Any> T.v(msg: Any, tag: String? = this::class.java.simpleName) {
-    log("v", tag, msg)
-}
-
 fun v(msg: Any, tag: String? = null) {
     log("v", tag, msg)
-}
-
-fun <T : Any> T.i(msg: Any, tag: String? = this::class.java.simpleName) {
-    log("i", tag, msg)
 }
 
 fun i(msg: Any, tag: String? = null) {
     log("i", tag, msg)
 }
 
-fun <T : Any> T.d(msg: Any, tag: String? = this::class.java.simpleName) {
-    log("d", tag, msg)
-}
-
 fun d(msg: Any, tag: String? = null) {
     log("d", tag, msg)
-}
-
-fun <T : Any> T.w(msg: Any, tag: String? = this::class.java.simpleName) {
-    log("w", tag, msg)
 }
 
 fun w(msg: Any, tag: String? = null) {
     log("w", tag, msg)
 }
 
-fun <T : Any> T.e(msg: Any, tag: String? = this::class.java.simpleName) {
-    log("e", tag, msg)
-}
-
 fun e(msg: Any, tag: String? = null) {
     log("e", tag, msg)
 }
 
-inline fun <T : Any, R> T.t(tag: String? = this::class.java.simpleName, block: (time: (String) -> Long) -> R): R {
+inline fun <T : Any, R> T.t(
+    tag: String? = this::class.java.simpleName,
+    block: (time: (String) -> Long) -> R
+): R {
     val ccu = System.currentTimeMillis()
     var cu = ccu
     val time: (String) -> Long = {
@@ -62,7 +42,7 @@ inline fun <T : Any, R> T.t(tag: String? = this::class.java.simpleName, block: (
 }
 
 fun log(type: String, tag: String?, msg: Any?) {
-    if (BuildConfig.DEBUG || msg is Throwable) {
+    if (LogConfig.logAble) {
         println()
         val any = when (msg) {
             null -> "null"
@@ -85,14 +65,7 @@ fun log(type: String, tag: String?, msg: Any?) {
             }
             else -> msg
         }
-        when (type) {
-            "v" -> Log.v(tag, any.toString())
-            "i" -> Log.i(tag, any.toString())
-            "d" -> Log.d(tag, any.toString())
-            "w" -> Log.w(tag, any.toString())
-            "e" -> Log.e(tag, any.toString())
-            else -> Log.i(tag, any.toString())
-        }
+        LogConfig.logFun(type, tag, any.toString())
 //        when (type) {
 //            "v" -> BuglyLog.v(tag, any.toString())
 //            "i" -> BuglyLog.i(tag, any.toString())
@@ -104,14 +77,21 @@ fun log(type: String, tag: String?, msg: Any?) {
     }
 }
 
-fun Throwable.d() {
-    d(this, null)
-}
+object LogConfig {
+    var logFun: (type: String, tag: String?, any: Any?) -> Unit = { type, tag, any ->
+        when (type) {
+            "v" -> Log.v(tag, any.toString())
+            "i" -> Log.i(tag, any.toString())
+            "d" -> Log.d(tag, any.toString())
+            "w" -> Log.w(tag, any.toString())
+            "e" -> Log.e(tag, any.toString())
+            else -> Log.i(tag, any.toString())
+        }
+    }
+    var logAble = true
 
-fun Throwable.w() {
-    w(this, null)
-}
-
-fun Throwable.e() {
-    e(this, null)
+    fun log(logAble: Boolean = true, log: (type: String, tag: String?, any: Any?) -> Unit) {
+        this.logAble = logAble
+        logFun = log
+    }
 }

@@ -41,7 +41,10 @@ fun <T> Collection<T>.random(count: Int): ArrayList<T> {
     return data
 }
 
-inline fun <T> Iterable<T>.containsAll(elements: Collection<@UnsafeVariance T>, eq: T.(T) -> Boolean): Boolean {
+inline fun <T> Iterable<T>.containsAll(
+    elements: Collection<@UnsafeVariance T>,
+    eq: T.(T) -> Boolean
+): Boolean {
     forEach { o ->
         elements.find { i -> o.eq(i) }?.let { return false }
     }
@@ -117,13 +120,13 @@ fun Any?.toByteArray(): ByteArray? {
             oos.flush()
             bytes = bos.toByteArray()
         } catch (var13: IOException) {
-            var13.w()
+            w(var13)
         } finally {
             try {
                 oos?.close()
                 bos.close()
             } catch (var12: IOException) {
-                var12.w()
+                w(var12)
             }
 
         }
@@ -179,6 +182,7 @@ inline fun <T> List<T>.findWithIndex(predicate: (T) -> Boolean): Pair<Int, T>? {
     return null
 }
 
+inline fun <T> Boolean.pick(a: T, b: T) = if (this) a else b
 
 fun <E> MutableCollection<E>._removeIf(filter: (E) -> Boolean): Boolean {
     var removed = false
