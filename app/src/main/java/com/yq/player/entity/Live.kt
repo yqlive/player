@@ -14,7 +14,8 @@ data class Live(
     val league: League? = null,
     val project: Project? = null,
     val teams: ArrayList<Team> = arrayListOf(),
-    val resolutions: ArrayList<Resolution> = arrayListOf()
+    val resolutions: ArrayList<Resolution> = arrayListOf(),
+    var selected: Boolean = false
 ) : Parcelable {
     constructor(source: Parcel) : this(
         source.readString(),
@@ -26,7 +27,8 @@ data class Live(
         source.readParcelable<League>(League::class.java.classLoader),
         source.readParcelable<Project>(Project::class.java.classLoader),
         source.createTypedArrayList(Team.CREATOR),
-        source.createTypedArrayList(Resolution.CREATOR)
+        source.createTypedArrayList(Resolution.CREATOR),
+        1 == source.readInt()
     )
 
     override fun describeContents() = 0
@@ -42,6 +44,7 @@ data class Live(
         writeParcelable(project, 0)
         writeTypedList(teams)
         writeTypedList(resolutions)
+        writeInt((if (selected) 1 else 0))
     }
 
     companion object {

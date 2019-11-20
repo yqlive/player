@@ -60,20 +60,10 @@ fun log(type: String, tag: String?, msg: Any?) {
                 msg.stackTrace.forEach {
                     append("\tat $it\n")
                 }
-//                if (type == "e" || type == "w")
-//                    CrashReport.postCatchedException(msg)
             }
             else -> msg
         }
         LogConfig.logFun(type, tag, any.toString())
-//        when (type) {
-//            "v" -> BuglyLog.v(tag, any.toString())
-//            "i" -> BuglyLog.i(tag, any.toString())
-//            "d" -> BuglyLog.d(tag, any.toString())
-//            "w" -> BuglyLog.w(tag, any.toString())
-//            "e" -> BuglyLog.e(tag, any.toString())
-//            else -> BuglyLog.i(tag, any.toString())
-//        }
     }
 }
 

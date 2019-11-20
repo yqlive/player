@@ -47,9 +47,9 @@ class Chain<E>(cause: Knot<*, E>) {
     }
 
     /**
-     * 捕获到异常时触发
+     * 为任务链创建别名
      * [TimeoutCancellationException] [CancellationException] 除外
-     * @param block 异常处理模块
+     * @param block 生成任务链别名
      * @return 任务链
      */
     fun alias(block: () -> String): Chain<E> {
@@ -115,7 +115,10 @@ class Chain<E>(cause: Knot<*, E>) {
      * @param dispatcher 指定对应协程
      * @param return 返回最后一个链节点的处理结果
      */
-    suspend fun await(dispatcher: CoroutineDispatcher = childCoroutine, vararg pair: Pair<Any, Any?>) =
+    suspend fun await(
+        dispatcher: CoroutineDispatcher = childCoroutine,
+        vararg pair: Pair<Any, Any?>
+    ) =
         async(dispatcher) {
             if (_cause == null)
                 throw Throwable("this chain was destoryed!")
@@ -131,7 +134,10 @@ class Chain<E>(cause: Knot<*, E>) {
                         theCause.start()
                 }.onFailure { throwable ->
                     when (throwable) {
-                        is TimeoutCancellationException -> _onTimeout?.invoke(theCause.box, this@Chain)
+                        is TimeoutCancellationException -> _onTimeout?.invoke(
+                            theCause.box,
+                            this@Chain
+                        )
                         is CancellationException -> {
                             if (throwable.message == cancellMessage)
                                 _onCancel?.invoke(theCause.box, this@Chain)
