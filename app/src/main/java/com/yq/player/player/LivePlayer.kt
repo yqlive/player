@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import com.yq.player.Settings
+import com.yq.player.apiHost
 import com.yq.player.base.config.PlayerConfig
 import com.yq.player.base.config.PlayerLibrary
 import com.yq.player.base.entity.DecoderPlan
@@ -27,12 +28,13 @@ object LivePlayer {
     @JvmOverloads
     @JvmStatic
     fun init(
-        app: Application,
+        app: Application, api: String = "https://wsrv.tvc6.cn/",
         livePort: Int = 8080,
         apiPort: Int = 5001,
         swarmPort: Int = 4001,
         onInited: Blo? = null
     ) {
+        apiHost = api
         ipfsLivePort = livePort
         ipfsApiPort = apiPort
         ipfsSwarmPort = swarmPort

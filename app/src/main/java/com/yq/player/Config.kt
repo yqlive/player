@@ -11,7 +11,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 
-val apiHost = "https://wsrv.tvc6.cn/"
+var apiHost = "https://wsrv.tvc6.cn/"
 //val apiHost = "http://111.6.79.35:7001/"
 
 fun ipfsInit() {
