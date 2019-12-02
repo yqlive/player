@@ -25,10 +25,23 @@ object LivePlayer {
     val PLAN_ID_IJK = 1
     val PLAN_ID_EXO = 2
     var ignoreMobile: Boolean = false
+
     @JvmOverloads
     @JvmStatic
     fun init(
-        app: Application, api: String = "https://wsrv.tvc6.cn/",
+        app: Application,
+        livePort: Int = 8080,
+        apiPort: Int = 5001,
+        swarmPort: Int = 4001,
+        onInited: Blo? = null
+    ) {
+        init(app, "https://wsrv.tvc6.cn/", apiPort, livePort, swarmPort, onInited)
+    }
+
+    @JvmOverloads
+    @JvmStatic
+    fun init(
+        app: Application, api: String,
         livePort: Int = 8080,
         apiPort: Int = 5001,
         swarmPort: Int = 4001,
