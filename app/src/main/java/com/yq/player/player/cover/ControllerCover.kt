@@ -306,27 +306,26 @@ class ControllerCover(context: Context) : BaseCover(context), OnTouchGestureList
             "alpha",
             if (state) 0f else 1f,
             if (state) 1f else 0f
-        )
-            .apply {
-                duration = 300
-                addListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationStart(animation: Animator) {
-                        super.onAnimationStart(animation)
-                        if (state) {
-                            bottomContainer.visibility = View.VISIBLE
-                        }
+        ).apply {
+            duration = 300
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animation: Animator) {
+                    super.onAnimationStart(animation)
+                    if (state) {
+                        bottomContainer.visibility = View.VISIBLE
                     }
+                }
 
-                    override fun onAnimationEnd(animation: Animator) {
-                        super.onAnimationEnd(animation)
-                        if (!state) {
-                            bottomContainer.visibility = View.GONE
-                        }
+                override fun onAnimationEnd(animation: Animator) {
+                    super.onAnimationEnd(animation)
+                    if (!state) {
+                        bottomContainer.visibility = View.GONE
                     }
-                })
-                mBottomAnimator = this
-                start()
-            }
+                }
+            })
+            mBottomAnimator = this
+            start()
+        }
     }
 
     private fun setControllerState(state: Boolean) {

@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.support.v4.app.SupportActivity
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.View
 import android.view.ViewGroup
 import com.yq.player.base.assist.InterEvent
 import com.yq.player.base.assist.OnVideoViewEventHandler
@@ -272,7 +273,11 @@ class LivePlayerView @JvmOverloads constructor(
         set(value) {
             if (value) {
                 if (!controllerEnable)
-                    mReceiverGroup.addReceiver(DataInter.ReceiverKey.KEY_CONTROLLER_COVER, ControllerCover(context))
+                    mReceiverGroup.addReceiver(
+                        DataInter.ReceiverKey.KEY_CONTROLLER_COVER,
+                        ControllerCover(context).apply {
+                            setCoverVisibility(View.VISIBLE)
+                        })
             } else
                 mReceiverGroup.removeReceiver(DataInter.ReceiverKey.KEY_CONTROLLER_COVER)
         }
@@ -282,14 +287,20 @@ class LivePlayerView @JvmOverloads constructor(
         set(value) {
             if (value) {
                 if (!gestureEnable)
-                    mReceiverGroup.addReceiver(DataInter.ReceiverKey.KEY_GESTURE_COVER, GestureCover(context))
+                    mReceiverGroup.addReceiver(
+                        DataInter.ReceiverKey.KEY_GESTURE_COVER,
+                        GestureCover(context)
+                    )
             } else
                 mReceiverGroup.removeReceiver(DataInter.ReceiverKey.KEY_GESTURE_COVER)
         }
 
 
     fun addOnScrollListener(onScroll: (e1: MotionEvent, event: MotionEvent, distanceX: Float, distanceY: Float) -> Unit) {
-        mReceiverGroup.addReceiver("${DataInter.ReceiverKey.KEY_SCROLL_LAYOUT_COVER}_${onScroll.hashCode()}", ScrollCover(context, onScroll))
+        mReceiverGroup.addReceiver(
+            "${DataInter.ReceiverKey.KEY_SCROLL_LAYOUT_COVER}_${onScroll.hashCode()}",
+            ScrollCover(context, onScroll)
+        )
     }
 
     fun removeOnScrollListener(onScroll: (e1: MotionEvent, event: MotionEvent, distanceX: Float, distanceY: Float) -> Unit) {
