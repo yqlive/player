@@ -268,7 +268,7 @@ class LivePlayerView @JvmOverloads constructor(
 
 
     var controllerEnable
-        get() = mReceiverGroup.getReceiver<GestureCover>(DataInter.ReceiverKey.KEY_CONTROLLER_COVER) != null
+        get() = mReceiverGroup.getReceiver<ControllerCover>(DataInter.ReceiverKey.KEY_CONTROLLER_COVER) != null
         set(value) {
             if (value) {
                 if (!controllerEnable)
