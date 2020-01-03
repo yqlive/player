@@ -5,7 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import com.yq.player.Settings
 import com.yq.player.apiHost
-import com.yq.player.ipfs.Ipfs.ipfsWriter
+import com.yq.player.ipfs.SnIpfs.ipfsWriter
 import com.yq.player.rely.bindReceiver
 import com.yq.player.rely.d
 import com.yq.player.rely.file

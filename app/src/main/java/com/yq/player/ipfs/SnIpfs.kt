@@ -1,6 +1,6 @@
 package com.yq.player.ipfs
 
-object Ipfs {
+object SnIpfs {
 
     var ipfsWriter: IpfsWriter? = null
 
