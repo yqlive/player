@@ -30,6 +30,11 @@ class Daemon(private val _context: Context) {
     private var onDone: (() -> Unit)? = null
     private var onFailed: ((Throwable) -> Unit)? = null
 
+    fun ipfsWriter(ipfsWriter: IpfsWriter): Daemon {
+        daemon.ipfsWriter = ipfsWriter
+        return this
+    }
+
     fun root(rootDir: File): Daemon {
         if (!rootDir.exists() || !rootDir.isDirectory)
             throw DaemonException("IPFS rootDir must be a directory!")
@@ -149,6 +154,7 @@ class Daemon(private val _context: Context) {
         var privateKeyStr: String? = null
         var publicKeyStr: String? = null
         var newstVersion: String? = null
+        var ipfsWriter: IpfsWriter? = null
 
         private val binaryFile by lazy { File(rootDir, "ipfsbin") }
         private val repoPath by lazy { File(rootDir, "ipfs_repo") }
@@ -243,18 +249,17 @@ class Daemon(private val _context: Context) {
 
 
         private fun install() {
-            val abi = when {
-                Build.CPU_ABI.toLowerCase().startsWith("arm") -> "snipfs"
-                else -> throw  CompatibilityException("Unsupported CPU")
+            if (!Build.CPU_ABI.toLowerCase().startsWith("arm"))
+                throw  CompatibilityException("Unsupported CPU")
+            ipfsWriter?.write(context, binaryFile) ?: run {
+                val source = context.assets.open("snipfs").source().buffer()
+                val sink = binaryFile.sink().buffer()
+                while (!source.exhausted()) {
+                    source.read(sink.buffer(), 1024)
+                }
+                source.close()
+                sink.close()
             }
-            val source = context.assets.open(abi).source().buffer()
-
-            val sink = binaryFile.sink().buffer()
-            while (!source.exhausted()) {
-                source.read(sink.buffer(), 1024)
-            }
-            source.close()
-            sink.close()
             binaryFile.setExecutable(true)
 
             if (!repoPath.exists() && !repoPath.mkdirs())

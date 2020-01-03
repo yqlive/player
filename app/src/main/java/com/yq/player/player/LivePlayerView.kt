@@ -68,7 +68,7 @@ class LivePlayerView @JvmOverloads constructor(
 
     private val onVideoViewEventHandler = object : OnVideoViewEventHandler() {
         override fun onAssistHandle(assist: BaseVideoView, eventCode: Int, bundle: Bundle?) {
-            super.onAssistHandle(assist, eventCode, bundle)
+            super.onAssistHandle(assist,  eventCode, bundle)
             when (eventCode) {
                 InterEvent.CODE_REQUEST_PAUSE -> userPause = true
                 DataInter.Event.EVENT_CODE_REQUEST_BACK ->
