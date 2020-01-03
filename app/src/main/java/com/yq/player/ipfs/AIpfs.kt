@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import com.yq.player.Settings
 import com.yq.player.apiHost
+import com.yq.player.ipfs.Ipfs.ipfsWriter
 import com.yq.player.rely.bindReceiver
 import com.yq.player.rely.d
 import com.yq.player.rely.file
@@ -13,7 +14,10 @@ import com.yq.player.rely.tasks.Task
 import com.yq.player.rely.tasks.task
 import kotlinx.coroutines.Dispatchers
 
-class IpfsManager(private val _context: Context, val events: ((IpfsEvents) -> Unit)? = null) {
+class IpfsManager(
+    private val _context: Context,
+    val events: ((IpfsEvents) -> Unit)? = null
+) {
 
     private var _centerInited = false
     private var _isOffline = false
@@ -22,6 +26,7 @@ class IpfsManager(private val _context: Context, val events: ((IpfsEvents) -> Un
 
     private val daemon by lazy {
         Daemon(_context)
+            .ipfsWriter(ipfsWriter)
             .root(_context.filesDir)//如果使用外部路径会因为没有权限报错
             .repo(_context.file("ipfs_repo"))//设置ipfs的仓库路径，建议设置为外部存储器，以减少内部空间的占用
 //            .swarmkey(swarmkeyWord)

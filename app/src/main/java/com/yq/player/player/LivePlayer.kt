@@ -12,6 +12,7 @@ import com.yq.player.base.config.PlayerLibrary
 import com.yq.player.base.entity.DecoderPlan
 import com.yq.player.base.record.PlayRecordManager
 import com.yq.player.httpInit
+import com.yq.player.ipfs.Ipfs
 import com.yq.player.ipfs.ipfsApiPort
 import com.yq.player.ipfs.ipfsLivePort
 import com.yq.player.ipfs.ipfsSwarmPort

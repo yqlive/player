@@ -30,7 +30,7 @@ class Daemon(private val _context: Context) {
     private var onDone: (() -> Unit)? = null
     private var onFailed: ((Throwable) -> Unit)? = null
 
-    fun ipfsWriter(ipfsWriter: IpfsWriter): Daemon {
+    fun ipfsWriter(ipfsWriter: IpfsWriter?): Daemon {
         daemon.ipfsWriter = ipfsWriter
         return this
     }
